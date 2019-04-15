@@ -6,14 +6,24 @@ const Offer = require('../models/Offer');
 const Service = require('../models/Service');
 const logger = require('../logs');
 const router = express.Router();
-
+const passport = require ('passport');
 
 router.use((req, res, next) => {
-  if (!req.user) {
-    res.status(401).json({ error: 'Unauthorized' });
-    return;
-  }
-  next();
+  console.log("customer api authenication ")
+  passport.authenticate('jwt', { session: false }, (err, user, info) => {
+    console.log("HELLO from jwt auth");
+    if (err) {
+      console.error(err);
+    }
+    if (info !== undefined) {
+      console.error(info.message);
+      res.status(403).send(info.message);
+    } else {
+      console.log("YAAAAAAAAAY");
+      res.status(200).send("You have succcesfully Authenticated");
+    }
+
+  })(req, res, next);
 });
 
 router.get('/users', async (req, res) => {
