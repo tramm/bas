@@ -2,7 +2,8 @@
 
 const mongoose = require('mongoose');
 const logger = require('../logs');
-
+require('dotenv').config();
+const STATIC_HOST = process.env.STATIC_WEB_HOST;
 const { Schema } = mongoose;
 
 const mongoSchema = new Schema({
@@ -10,33 +11,40 @@ const mongoSchema = new Schema({
     type: String,
     required: true,
   },
- 
+  url: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
   createdAt: {
     type: Date,
     required: true,
   },
-  // price in dollars
   price: {
     type: Number,
-    required: true,
   }
 });
 
 class OfferClass {
-    static async list({offset = 0, limit = 10} = {}){
+  static async list({ offset = 0, limit = 10 } = {}) {
     const offers = await this.find({})
-        .sort({ createdAt: -1 })
-        .skip(offset)
-        .limit(limit);
-    return { offers };    
-    }
-    static async add({ name, price}) {
-        return this.create({
-          name,
-          price,
-          createdAt: new Date()
-        });
-      }
+      .sort({ createdAt: -1 })
+      .skip(offset)
+      .limit(limit);
+    return { "url":STATIC_HOST,"offers":offers };
+  }
+  static async add({ name, description, url, price  }) {
+    return this.create({
+      name,
+      description,
+      url,
+      price,
+      createdAt: new Date()
+    });
+  }
 }
 mongoSchema.loadClass(OfferClass);
 

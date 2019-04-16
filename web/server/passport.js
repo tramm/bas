@@ -10,6 +10,8 @@ const User = require('./models/MUser');
 const jwtSecret = require('./jwtConfig');
 const jwt = require('jsonwebtoken');
 const BCRYPT_SALT_ROUNDS = 12;
+require('dotenv').config();
+const STATIC_HOST = process.env.STATIC_WEB_HOST;
 
 function auth_pass({ server }) {
   passport.use(
@@ -92,6 +94,7 @@ function auth_pass({ server }) {
           auth: true,
           token,
           message: 'user found & logged in',
+          static_host:STATIC_HOST,
         });
         console.log("Successful Login");
       }
