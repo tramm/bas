@@ -3,6 +3,7 @@ const _ = require('lodash');
 
 const MUser = require('../models/MUser');
 const Offer = require('../models/Offer');
+const Vehicle = require('../models/Vehicle');
 const categories = require('../models/ServiceCategory');
 const logger = require('../logs');
 const router = express.Router();
@@ -80,6 +81,25 @@ router.post('/services/add', async (req, res) => {
     console.log(req);
     const offer = await categories.add(req.body);
     res.json(offer);
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.get('/vehicles', async (req, res) => {
+  try {
+    const vehicles = await Vehicle.list();
+    res.json(vehicles);
+  } catch (err) {
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.post('/vehicles/add', async (req, res) => {
+  try {
+    const vehicles = await Vehicle.add(req.body);
+    res.json(vehicles);
   } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });
