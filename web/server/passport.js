@@ -9,6 +9,7 @@ const ExtractJWT = require('passport-jwt').ExtractJwt;
 const User = require('./models/MUser');
 const jwtSecret = require('./jwtConfig');
 const jwt = require('jsonwebtoken');
+const sms = require('./ext/sms');
 const BCRYPT_SALT_ROUNDS = 12;
 require('dotenv').config();
 const STATIC_HOST = process.env.STATIC_WEB_HOST;
@@ -104,7 +105,10 @@ function auth_pass({ server }) {
     console.log("Doing Verification");
     const user = await User.findOne({ mobile: req.body.mobile }).lean();
     if (user === null) {
-      res.status(401).send("Bad Mobile provided");
+      res.status(401).send({
+        message:"Bad Mobile provided"
+      });
+      sms('9840021822',"Hello%20from%20Book%20a%20Service%20App");
     } else {
       res.status(200).send({
         message: 'mobile present in DB',
