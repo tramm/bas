@@ -3,6 +3,8 @@
 const mongoose = require('mongoose');
 const logger = require('../logs');
 const { Schema } = mongoose;
+require('dotenv').config();
+const STATIC_HOST = process.env.STATIC_WEB_HOST;
 
 const mongoSchema = new Schema({
     name: {
@@ -29,7 +31,7 @@ class ServiceCategoryClass {
             .sort({ createdAt: -1 })
             .skip(offset)
             .limit(limit).lean();
-        return { categories };
+        return { "url": STATIC_HOST, "categories": categories };
     }
     static async add({ name, description, url }) {
         return this.create({
