@@ -33,12 +33,9 @@ const muserSchema = new Schema({
         default: false,
     },
     displayName: String,
-<<<<<<< HEAD
     address:[addressSchema],
     vehicle:[{type: Schema.ObjectId, ref: 'Vehicle', require: true}]
-=======
-    address: [addressSchema],
->>>>>>> 6e61b5838dd6471ef9c9578adba4333047f6018c
+
 });
 
 class MUserClass {
