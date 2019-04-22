@@ -27,7 +27,7 @@ const mongoSchema = new Schema({
   price: {
     type: Number,
   },
-  category:[{ type: Schema.ObjectId, ref: 'ServiceCategory',required: true }]
+  category: [{ type: Schema.ObjectId, ref: 'ServiceCategory', required: true }]
 });
 
 class OfferClass {
@@ -36,29 +36,18 @@ class OfferClass {
       .sort({ createdAt: -1 })
       .skip(offset)
       .limit(limit);
-    return { "url":STATIC_HOST,"offers":offers };
+    return { "url": STATIC_HOST, "offers": offers };
   }
-  static async listByCategory({category_id}){
-    //const categoryList = await ServiceCategory.find({});
+  static async listByCategory({ category_id }) {
     console.log(category_id);
-    const offerList = await this.find({category:category_id})
-    //console.log(categories);
-    // categoryList.forEach(async category => {
-    //   console.log("Looping Categories !!!!");
-    //   console.log(category);
-    //   let offers = await this.find({});
-    //   category.offers = offers;
-      //console.log(category);
-
-      return {offerList};
-    //});
-
+    const offerList = await this.find({ category: category_id })
+    return { offerList };
   }
-  static async add({ name, description, url, price,category_id }) {
-    console.log("the category is "+category_id);
+  static async add({ name, description, url, price, category_id }) {
+    console.log("the category is " + category_id);
     let category = await ServiceCategory.findById(category_id)
     console.log(category);
-    let ret =  this.create({
+    let ret = this.create({
       name,
       description,
       url,
@@ -69,11 +58,8 @@ class OfferClass {
     console.log(ret.category);
     return ret;
   }
-  
 }
 mongoSchema.loadClass(OfferClass);
-
 const Offer = mongoose.model('Offer', mongoSchema);
-
 module.exports = Offer;
 

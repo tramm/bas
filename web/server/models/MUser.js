@@ -15,14 +15,14 @@ const muserSchema = new Schema({
         type: String,
         required: true,
     },
-    pin:{
+    pin: {
         type: Number,
         required: true,
     },
     mobile: {
         type: String,
         required: true,
-        unique:true,
+        unique: true,
     },
     createdAt: {
         type: Date,
@@ -33,19 +33,23 @@ const muserSchema = new Schema({
         default: false,
     },
     displayName: String,
+<<<<<<< HEAD
     address:[addressSchema],
     vehicle:[{type: Schema.ObjectId, ref: 'Vehicle', require: true}]
+=======
+    address: [addressSchema],
+>>>>>>> 6e61b5838dd6471ef9c9578adba4333047f6018c
 });
 
 class MUserClass {
     // User's public fields
     static publicFields() {
-        return ['id', 'displayName', 'mobile', 'isAdmin','pin'];
+        return ['id', 'displayName', 'mobile', 'isAdmin', 'pin'];
     }
-    static async list(){
+    static async list() {
         const users = await this.find({})
-        .sort({ createdAt: -1 });
-      return { users };
+            .sort({ createdAt: -1 });
+        return { users };
     }
     static async add({name,mobile,pin,address,vehicle_id}){
         console.log("the vehicle is "+vehicle_id);
@@ -105,10 +109,7 @@ class MUserClass {
         return _.pick(newUser, UserClass.publicFields());
     }
 }
-
 muserSchema.loadClass(MUserClass);
-
 const MUser = mongoose.model('MUser', muserSchema);
-
 module.exports = MUser;
 

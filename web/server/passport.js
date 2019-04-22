@@ -10,6 +10,8 @@ const User = require('./models/MUser');
 const jwtSecret = require('./jwtConfig');
 const jwt = require('jsonwebtoken');
 const sms = require('./ext/sms');
+const OTP = require('./ext/otp');
+
 const BCRYPT_SALT_ROUNDS = 12;
 require('dotenv').config();
 const STATIC_HOST = process.env.STATIC_WEB_HOST;
@@ -33,14 +35,6 @@ function auth_pass({ server }) {
             if (user === null) {
               return done(null, false, { message: 'bad username' });
             }
-            // bcrypt.compare(password, user.password).then((response) => {
-            //     if (response !== true) {
-            //         console.log('passwords do not match');
-            //         return done(null, false, { message: 'passwords do not match' });
-            //     }
-            //     console.log('user found & authenticated');
-            //     return done(null, user);
-            // });
             console.log('user found & authenticated');
             return done(null, user);
           });
@@ -95,20 +89,39 @@ function auth_pass({ server }) {
           auth: true,
           token,
           message: 'user found & logged in',
-          static_host:STATIC_HOST,
+          static_host: STATIC_HOST,
         });
         console.log("Successful Login");
       }
     })(req, res, next);
+  });
+  server.post('/otp_verify', async (req, res, next) => {
+    valid = OTP.validate({ token: req.body.token })
+    if (!valid) {
+      res.status(401).send({
+        message: "Bad OTP try again"
+      });
+    } else {
+      res.status(200).send({
+        message: 'OTP Verified',
+      });
+      console.log("Successful OTP verification");
+    }
+
   });
   server.post('/verify', async (req, res, next) => {
     console.log("Doing Verification");
     const user = await User.findOne({ mobile: req.body.mobile }).lean();
     if (user === null) {
       res.status(401).send({
-        message:"Bad Mobile provided"
+        message: "Bad Mobile provided"
       });
-      sms('9840021822',"Hello%20from%20Book%20a%20Service%20App");
+      otp_val = await OTP.verify();
+      console.log(otp_val);
+      otp_message = " Thanks for downloading Book a service app please use OTP " + otp_val.token;
+      log_message = "Sent Message to " + req.body.mobile
+      sms('9840021822', log_message.replace(/ /g, "%20"));
+      sms(req.body.mobile, otp_message.replace(/ /g, "%20"));
     } else {
       res.status(200).send({
         message: 'mobile present in DB',
@@ -117,5 +130,4 @@ function auth_pass({ server }) {
     }
   });
 };
-
 module.exports = auth_pass;

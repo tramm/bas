@@ -1,8 +1,6 @@
-
 const http = require('http');
 require('dotenv').config();
 const key = process.env.SMS_TEXTLOCAL_API_KEY;
-
 
 const sendSMS = async (number, message) => {
   console.log("Trying to send text local SMS");
@@ -30,7 +28,6 @@ const sendSMS = async (number, message) => {
       console.log(body.toString());
     });
   });
-
   req.end();
 };
 module.exports = sendSMS;
