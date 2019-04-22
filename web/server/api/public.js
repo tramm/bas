@@ -4,6 +4,10 @@ const _ = require('lodash');
 const MUser = require('../models/MUser');
 const Offer = require('../models/Offer');
 const Vehicle = require('../models/Vehicle');
+const Booking = require('../models/Booking');
+const Patner = require('../models/Patner');
+const Leads = require('../models/Leads');
+
 const categories = require('../models/ServiceCategory');
 const logger = require('../logs');
 const router = express.Router();
@@ -105,5 +109,64 @@ router.post('/vehicles/add', async (req, res) => {
     res.json({ error: err.message || err.toString() });
   }
 });
+
+router.get('/patners', async (req, res) => {
+  try {
+    const patners = await Patner.list();
+    res.json(patners);
+  } catch (err) {
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.post('/patners/add', async (req, res) => {
+  try {
+    const patners = await Patner.add(req.body);
+    res.json(patners);
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.get('/bookings', async (req, res) => {
+  try {
+    const bookings = await Booking.list();
+    res.json(bookings);
+  } catch (err) {
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.post('/bookings/add', async (req, res) => {
+  try {
+    const bookings = await Booking.add(req.body);
+    res.json(bookings);
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.get('/leads', async (req, res) => {
+  try {
+    const leads = await Leads.list();
+    res.json(leads);
+  } catch (err) {
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.post('/leads/add', async (req, res) => {
+  try {
+    const leads = await Leads.add(req.body);
+    res.json(leads);
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+
 
 module.exports = router;

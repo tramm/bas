@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const _ = require('lodash');
+const Vehicle = require('./Vehicle');
 
 const { Schema } = mongoose;
 const addressSchema = new Schema({
@@ -33,6 +34,7 @@ const muserSchema = new Schema({
     },
     displayName: String,
     address:[addressSchema],
+    vehicle:[{type: Schema.ObjectId, ref: 'Vehicle', require: true}]
 });
 
 class MUserClass {
@@ -45,17 +47,23 @@ class MUserClass {
         .sort({ createdAt: -1 });
       return { users };
     }
-    static async add({name,mobile,pin,address}){
+    static async add({name,mobile,pin,address,vehicle_id}){
+        console.log("the vehicle is "+vehicle_id);
         if (mobile){
             const user = await this.findOne({ mobile });
             if(user)return user;
+            let vehicle = await Vehicle.findById(vehicle_id);
+            console.log(vehicle);
             const newUser = await this.create({
                 createdAt: new Date(),
                 name,
                 mobile,
                 pin,
                 address,
+                vehicle
             });
+            console.log(newUser.vehicle);
+            return newUser;
         } else {
             console.log("ERROR in request - no mobile");
             throw new Error('User cannot be created without mobile number');
