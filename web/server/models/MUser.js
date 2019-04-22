@@ -14,14 +14,14 @@ const muserSchema = new Schema({
         type: String,
         required: true,
     },
-    pin:{
+    pin: {
         type: Number,
         required: true,
     },
     mobile: {
         type: String,
         required: true,
-        unique:true,
+        unique: true,
     },
     createdAt: {
         type: Date,
@@ -32,23 +32,23 @@ const muserSchema = new Schema({
         default: false,
     },
     displayName: String,
-    address:[addressSchema],
+    address: [addressSchema],
 });
 
 class MUserClass {
     // User's public fields
     static publicFields() {
-        return ['id', 'displayName', 'mobile', 'isAdmin','pin'];
+        return ['id', 'displayName', 'mobile', 'isAdmin', 'pin'];
     }
-    static async list(){
+    static async list() {
         const users = await this.find({})
-        .sort({ createdAt: -1 });
-      return { users };
+            .sort({ createdAt: -1 });
+        return { users };
     }
-    static async add({name,mobile,pin,address}){
-        if (mobile){
+    static async add({ name, mobile, pin, address }) {
+        if (mobile) {
             const user = await this.findOne({ mobile });
-            if(user)return user;
+            if (user) return user;
             const newUser = await this.create({
                 createdAt: new Date(),
                 name,
@@ -97,10 +97,7 @@ class MUserClass {
         return _.pick(newUser, UserClass.publicFields());
     }
 }
-
 muserSchema.loadClass(MUserClass);
-
 const MUser = mongoose.model('MUser', muserSchema);
-
 module.exports = MUser;
 
