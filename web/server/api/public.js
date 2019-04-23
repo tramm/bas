@@ -9,6 +9,7 @@ const Patner = require('../models/Patner');
 const Leads = require('../models/Leads');
 
 const categories = require('../models/ServiceCategory');
+const ServiceCenter = require('../models/ServiceCenter');
 const logger = require('../logs');
 const router = express.Router();
 
@@ -167,6 +168,24 @@ router.post('/leads/add', async (req, res) => {
   }
 });
 
+router.get('/serCenters', async (req,res) => {
+  try{
+    const serCenters = await ServiceCenter.list();
+    res.json(serCenters);
+  } catch (err) {
+    logger.error(err);
+    res.json({error: err.message || err.toString() })
+  }
+})
 
+router.post('/serCenters/add', async (req, res) => {
+  try {
+    const serCenters = await ServiceCenter.add(req.body);
+    res.json(serCenters);
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
 
 module.exports = router;

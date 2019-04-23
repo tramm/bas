@@ -35,6 +35,18 @@ const mongoSchema = new Schema({
   zip: {
     type: String,
     required: true,
+  },
+  is_customer: {
+    type: Boolean,
+    default: false,
+  },
+  is_service_center: {
+    type: Boolean,
+    default: false,
+  },
+  is_admin: {
+    type: Boolean,
+    default: false,
   }
 });
 
@@ -46,7 +58,7 @@ class PatnerClass {
       .limit(limit);
     return { "url":STATIC_HOST,"patners":patners };
   }
-  static async add({ name, mobile, pin, email, street1, street2, city, zip}) {
+  static async add({ name, mobile, pin, email, street1, street2, city, zip, is_customer, is_service_center, is_admin}) {
     if (mobile){
         const user = await this.findOne({ mobile });
         if(user)return user;
@@ -59,6 +71,9 @@ class PatnerClass {
             street2,
             city,
             zip,
+            is_customer,
+            is_service_center,
+            is_admin
         });
      return patner;
     }else {
