@@ -5,7 +5,7 @@ const logger = require('../logs');
 require('dotenv').config();
 const STATIC_HOST = process.env.STATIC_WEB_HOST;
 const { Schema } = mongoose;
-const Patner = require("./Patner");
+const Partner = require("./Partner");
 
 const mongoSchema = new Schema({
   name: {
@@ -22,31 +22,33 @@ const mongoSchema = new Schema({
   },
   active: {
     type: Boolean,
-    default: false
+    default: true
   },
-  patner:[{type: Schema.ObjectId, ref: "Patner", required: true}]
+  partner:[{type: Schema.ObjectId, ref: "Partner", required: true}]
 });
 
 class ServiceCenterClass {
   static async list({ offset = 0, limit = 10 } = {}) {
+    var populateSerCenterQuery = [{path:'partner'}];
     const SerCenter = await this.find({})
+      .populate(populateSerCenterQuery)
       .sort({ active: -1 })
       .skip(offset)
       .limit(limit);
     return { "url":STATIC_HOST,"SerCenter":SerCenter };
   }
-  static async add({ name, primary_contact, secondary_contact, patner_id, active }) {
-    console.log("the patner is "+patner_id);
-    const patner = await Patner.findById(patner_id);
-    console.log(patner);
+  static async add({ name, primary_contact, secondary_contact, partner_id, active }) {
+    console.log("the partner is "+partner_id);
+    const partner = await Partner.findById(partner_id);
+    console.log(partner);
     const serCenter =  this.create({
       name,
       primary_contact,
       secondary_contact,
-      patner,
+      partner,
       active
     });
-    console.log("created sercenter patner "+serCenter.patner);
+    console.log("created sercenter partner "+serCenter.partner);
     return serCenter;
   }
 }

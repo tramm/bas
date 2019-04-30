@@ -28,7 +28,9 @@ const mongoSchema = new Schema({
 
 class BookingClass {
   static async list({ offset = 0, limit = 10 } = {}) {
+    var populateBookingQuery = [{path:'vehicle'}, {path:'offer'}, {path:'muser'}];
     const bookings = await this.find({})
+      .populate(populateBookingQuery)
       .sort({ active: -1 })
       .skip(offset)
       .limit(limit);

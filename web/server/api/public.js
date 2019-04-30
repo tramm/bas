@@ -5,7 +5,7 @@ const MUser = require('../models/MUser');
 const Offer = require('../models/Offer');
 const Vehicle = require('../models/Vehicle');
 const Booking = require('../models/Booking');
-const Patner = require('../models/Patner');
+const Partner = require('../models/Partner');
 const Leads = require('../models/Leads');
 
 const categories = require('../models/ServiceCategory');
@@ -111,19 +111,49 @@ router.post('/vehicles/add', async (req, res) => {
   }
 });
 
-router.get('/patners', async (req, res) => {
+router.put('/vehicles/update', async (req, res) => {
   try {
-    const patners = await Patner.list();
-    res.json(patners);
+    const myParams = req.body;
+    console.log("The body values are "+myParams[0].model);
+    console.log("The body values are "+myParams.length);
+    for(var i = 0; i<myParams.length; i++){
+        const vehicles = await Vehicle.update(myParams[i].id, req.body);
+    }
+    res.json("Updated successfully");
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.delete('/vehicles/delete', async (req, res) => {
+  try {
+    const myParams = req.body;
+    console.log("The body values are "+myParams[0].model);
+    console.log("The body values are "+myParams.length);
+    for(var i = 0; i<myParams.length; i++){
+        const vehicles = await Vehicle.delete(myParams[i].id);
+    }
+    res.json("Deleted successfully");
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.get('/partners', async (req, res) => {
+  try {
+    const partners = await Partner.list();
+    res.json(partners);
   } catch (err) {
     res.json({ error: err.message || err.toString() });
   }
 });
 
-router.post('/patners/add', async (req, res) => {
+router.post('/partners/add', async (req, res) => {
   try {
-    const patners = await Patner.add(req.body);
-    res.json(patners);
+    const partners = await Partner.add(req.body);
+    res.json(partners);
   } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });

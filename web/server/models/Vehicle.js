@@ -25,6 +25,7 @@ const mongoSchema = new Schema({
   },
   active: {
     type: Boolean,
+    default: true,
   }
 });
 
@@ -45,6 +46,19 @@ class VehicleClass {
       active
     });
   }
+
+  static async update(id, req) {
+    const updVehicle = await Vehicle.findByIdAndUpdate(id, {$set: req});
+    console.log(updVehicle);
+    return updVehicle;
+  }
+
+  static async delete(id) {
+    const delVehicle = await Vehicle.findByIdAndRemove(id);
+    console.log(delVehicle);
+    return delVehicle;
+  }
+
 }
 mongoSchema.loadClass(VehicleClass);
 

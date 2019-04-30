@@ -32,7 +32,9 @@ const mongoSchema = new Schema({
 
 class OfferClass {
   static async list({ offset = 0, limit = 10 } = {}) {
+    var populateOfferQuery = [{path:'category'}];
     const offers = await this.find({})
+      .populate(populateOfferQuery)
       .sort({ createdAt: -1 })
       .skip(offset)
       .limit(limit);

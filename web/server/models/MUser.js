@@ -44,7 +44,9 @@ class MUserClass {
         return ['id', 'displayName', 'mobile', 'isAdmin', 'pin'];
     }
     static async list() {
+        var populateMusersQuery = [{path:'vehicle'}];
         const users = await this.find({})
+            .populate(populateMusersQuery)
             .sort({ createdAt: -1 });
         return { users };
     }

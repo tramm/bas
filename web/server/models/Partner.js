@@ -38,11 +38,11 @@ const mongoSchema = new Schema({
   },
   is_customer: {
     type: Boolean,
-    default: false,
+    default: true,
   },
   is_service_center: {
     type: Boolean,
-    default: false,
+    default: true,
   },
   is_admin: {
     type: Boolean,
@@ -50,19 +50,19 @@ const mongoSchema = new Schema({
   }
 });
 
-class PatnerClass {
+class PartnerClass {
   static async list({ offset = 0, limit = 10 } = {}) {
-    const patners = await this.find({})
+    const partners = await this.find({})
       .sort({ active: -1 })
       .skip(offset)
       .limit(limit);
-    return { "url":STATIC_HOST,"patners":patners };
+    return { "url":STATIC_HOST,"partners":partners };
   }
   static async add({ name, mobile, pin, email, street1, street2, city, zip, is_customer, is_service_center, is_admin}) {
     if (mobile){
         const user = await this.findOne({ mobile });
         if(user)return user;
-        const patner =  this.create({
+        const partner =  this.create({
             name,
             mobile,
             pin,
@@ -75,16 +75,16 @@ class PatnerClass {
             is_service_center,
             is_admin
         });
-     return patner;
+     return partner;
     }else {
         console.log("ERROR in request - no mobile");
         throw new Error('User cannot be created without mobile number');
     }
   }
 }
-mongoSchema.loadClass(PatnerClass);
+mongoSchema.loadClass(PartnerClass);
 
-const Patner = mongoose.model('Patner', mongoSchema);
+const Partner = mongoose.model('Partner', mongoSchema);
 
-module.exports = Patner;
+module.exports = Partner;
 
