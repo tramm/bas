@@ -17,7 +17,9 @@ const mongoSchema = new Schema({
 
 class LeadsClass {
   static async list({ offset = 0, limit = 10 } = {}) {
+    var populateLeadsQuery = [{path:'booking'}];
     const leads = await this.find({})
+      .populate(populateLeadsQuery)
       .sort({ active: -1 })
       .skip(offset)
       .limit(limit);
