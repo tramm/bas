@@ -13,7 +13,6 @@ const muserSchema = new Schema({
 
     name: {
         type: String,
-        required: true,
     },
     pin: {
         type: String,

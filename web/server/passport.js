@@ -40,9 +40,14 @@ function auth_pass({ server }) {
                 message: 'mobile already taken',
               });
             }
+            //check if pin and repin are same 
+            if (pin != req.body.repin){
+              return done(null, false, {
+                message: 'pin and confirm pin do not match',
+              });
+            }
             bcrypt.hash(pin, BCRYPT_SALT_ROUNDS).then((hashedPassword) => {
               User.add({
-                name : req.body.name,
                 mobile,
                 pin: hashedPassword,
                 email: req.body.email,
