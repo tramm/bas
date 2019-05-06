@@ -158,9 +158,9 @@ function auth_pass({ server }) {
       if (info !== undefined || user == undefined) {
         console.error(info.message);
         if (info.message === 'bad username') {
-          res.status(401).send(info.message);
+          res.status(401).send({"error":info.message});
         } else {
-          res.status(403).send(info.message);
+          res.status(403).send({"error":info.message});
         }
       } else {
         const token = jwt.sign({ id: user.id }, jwtSecret.secret);
