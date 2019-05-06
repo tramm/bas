@@ -23,6 +23,14 @@ const mongoSchema = new Schema({
     type: String,
     required: true,
   },
+  registration_number: {
+    type: String,
+    required: true,
+  },
+  tag: {
+    type: String,
+    required: true,
+  },
   active: {
     type: Boolean,
     default: true,
@@ -37,12 +45,14 @@ class VehicleClass {
       .limit(limit);
     return { "url":STATIC_HOST,"vehicles":vehicles };
   }
-  static async add({ manufacturer, model, color, variant, active }) {
+  static async add({ manufacturer, model, color, variant, registration_number, tag, active }) {
     return this.create({
       manufacturer,
       model,
       color,
       variant,
+      registration_Number, 
+      tag,
       active
     });
   }

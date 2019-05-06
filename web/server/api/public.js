@@ -37,6 +37,33 @@ router.post('/user/add', async (req, res) => {
   }
 });
 
+router.put('/users/update', async (req, res) => {
+  try {
+    const myParams = req.body;
+    for(var i = 0; i<myParams.length; i++){
+        const user = await MUser.update(myParams[i].id, req.body);
+    }
+    res.json("Updated successfully");
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.delete('/users/delete', async (req, res) => {
+  try {
+    const myParams = req.body;
+    for(var i = 0; i<myParams.length; i++){
+        const user = await MUser.delete(myParams[i].id);
+    }
+    res.json("Deleted successfully");
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+
 router.get('/offers', async (req, res) => {
   try {
     console.log(Offer);
@@ -70,6 +97,32 @@ router.get('/offers/list', async (req, res) => {
   }
 });
 
+router.put('/offers/update', async (req, res) => {
+  try {
+    const myParams = req.body;
+    for(var i = 0; i<myParams.length; i++){
+        const offer = await Offer.update(myParams[i].id, req.body);
+    }
+    res.json("Updated successfully");
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.delete('/offers/delete', async (req, res) => {
+  try {
+    const myParams = req.body;
+    for(var i = 0; i<myParams.length; i++){
+        const offer = await Offer.delete(myParams[i].id);
+    }
+    res.json("Deleted successfully");
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
 router.get('/services', async (req, res) => {
   try {
     const services = await categories.list();
@@ -91,6 +144,33 @@ router.post('/services/add', async (req, res) => {
     res.json({ error: err.message || err.toString() });
   }
 });
+
+router.put('/services/update', async (req, res) => {
+  try {
+    const myParams = req.body;
+    for(var i = 0; i<myParams.length; i++){
+        const serviceCat = await categories.update(myParams[i].id, req.body);
+    }
+    res.json("Updated successfully");
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.delete('/services/delete', async (req, res) => {
+  try {
+    const myParams = req.body;
+    for(var i = 0; i<myParams.length; i++){
+        const serviceCat = await categories.delete(myParams[i].id);
+    }
+    res.json("Deleted successfully");
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
 
 router.get('/vehicles', async (req, res) => {
   try {
@@ -160,6 +240,33 @@ router.post('/partners/add', async (req, res) => {
   }
 });
 
+router.put('/partners/update', async (req, res) => {
+  try {
+    const myParams = req.body;
+    for(var i = 0; i<myParams.length; i++){
+        const partner = await Partner.update(myParams[i].id, req.body);
+    }
+    res.json("Updated successfully");
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.delete('/partners/delete', async (req, res) => {
+  try {
+    const myParams = req.body;
+    for(var i = 0; i<myParams.length; i++){
+        const partner = await Partner.delete(myParams[i].id);
+    }
+    res.json("Deleted successfully");
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+
 router.get('/bookings', async (req, res) => {
   try {
     const bookings = await Booking.list();
@@ -178,6 +285,33 @@ router.post('/bookings/add', async (req, res) => {
     res.json({ error: err.message || err.toString() });
   }
 });
+
+router.put('/bookings/update', async (req, res) => {
+  try {
+    const myParams = req.body;
+    for(var i = 0; i<myParams.length; i++){
+        const bookings = await Booking.update(myParams[i].id, req.body);
+    }
+    res.json("Updated successfully");
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.delete('/bookings/delete', async (req, res) => {
+  try {
+    const myParams = req.body;
+    for(var i = 0; i<myParams.length; i++){
+        const bookings = await Booking.delete(myParams[i].id);
+    }
+    res.json("Deleted successfully");
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
 
 router.get('/leads', async (req, res) => {
   try {
@@ -198,6 +332,33 @@ router.post('/leads/add', async (req, res) => {
   }
 });
 
+router.put('/leads/update', async (req, res) => {
+  try {
+    const myParams = req.body;
+    for(var i = 0; i<myParams.length; i++){
+        const leads = await Leads.update(myParams[i].id, req.body);
+    }
+    res.json("Updated successfully");
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.delete('/leads/delete', async (req, res) => {
+  try {
+    const myParams = req.body;
+    for(var i = 0; i<myParams.length; i++){
+        const leads = await Leads.delete(myParams[i].id);
+    }
+    res.json("Deleted successfully");
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+
 router.get('/serCenters', async (req,res) => {
   try{
     const serCenters = await ServiceCenter.list();
@@ -217,5 +378,32 @@ router.post('/serCenters/add', async (req, res) => {
     res.json({ error: err.message || err.toString() });
   }
 });
+
+router.put('/serCenters/update', async (req, res) => {
+  try {
+    const myParams = req.body;
+    for(var i = 0; i<myParams.length; i++){
+        const serCenters = await ServiceCenter.update(myParams[i].id, req.body);
+    }
+    res.json("Updated successfully");
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.delete('/serCenters/delete', async (req, res) => {
+  try {
+    const myParams = req.body;
+    for(var i = 0; i<myParams.length; i++){
+        const serCenters = await ServiceCenter.delete(myParams[i].id);
+    }
+    res.json("Deleted successfully");
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
 
 module.exports = router;
