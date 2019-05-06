@@ -17,6 +17,52 @@ require('dotenv').config();
 const STATIC_HOST = process.env.STATIC_WEB_HOST;
 
 function auth_pass({ server }) {
+
+  passport.use(
+    'register',
+    new LocalStrategy(
+      {
+        usernameField: 'mobile',
+        passwordField: 'pin',
+        passReqToCallback: true,
+        session: false,
+      },
+      (req, mobile, pin, done) => {
+        console.log(mobile);
+        console.log(req.body.email);
+        try {
+          User.findOne({
+            mobile: mobile
+          }).then((user) => {
+            if (user != null) {
+              console.log('mobile already taken');
+              return done(null, false, {
+                message: 'mobile already taken',
+              });
+            }
+            //check if pin and repin are same 
+            if (pin != req.body.repin){
+              return done(null, false, {
+                message: 'pin and confirm pin do not match',
+              });
+            }
+            bcrypt.hash(pin, BCRYPT_SALT_ROUNDS).then((hashedPassword) => {
+              User.add({
+                mobile,
+                pin: hashedPassword,
+                email: req.body.email,
+              }).then((user) => {
+                console.log('user created');
+                return done(null, user);
+              });
+            });
+          });
+        } catch (err) {
+          return done(err);
+        }
+      },
+    ),
+  );
   passport.use(
     'login',
     new LocalStrategy(
@@ -35,8 +81,14 @@ function auth_pass({ server }) {
             if (user === null) {
               return done(null, false, { message: 'bad username' });
             }
-            console.log('user found & authenticated');
-            return done(null, user);
+            bcrypt.compare(pin, user.pin).then((response) => {
+              if (response !== true) {
+                console.log('passwords do not match');
+                return done(null, false, { message: 'passwords do not match' });
+              }
+              console.log('user found & authenticated');
+              return done(null, user);
+            });
           });
         } catch (err) {
           done(err);
@@ -69,6 +121,33 @@ function auth_pass({ server }) {
     }),
   );
   server.use(passport.initialize());
+  server.post('/register', (req, res, next) => {
+    console.log("Doing Registration");
+    passport.authenticate('register', (err, user, info) => {
+      console.log("HALOOOOO");
+      if (err) {
+        console.error(`error ${err}`);
+      }
+      if (info !== undefined) {
+        console.error(info.message);
+        if (info.message === 'bad username') {
+          res.status(401).send({"error":info.message});
+        } else {
+          res.status(403).send({"error":info.message});
+        }
+      } else {
+        const token = jwt.sign({ id: user.id }, jwtSecret.secret);
+        res.status(200).send({
+          auth: true,
+          token,
+          message: 'user registered & logged in',
+          static_host: STATIC_HOST,
+        });
+        console.log("Successful Login");
+      }
+    })(req, res, next);
+  });
+  server.use(passport.initialize());
   server.post('/login', (req, res, next) => {
     console.log("Doing LOGIN");
     passport.authenticate('login', (err, user, info) => {
@@ -79,9 +158,9 @@ function auth_pass({ server }) {
       if (info !== undefined || user == undefined) {
         console.error(info.message);
         if (info.message === 'bad username') {
-          res.status(401).send(info.message);
+          res.status(401).send({"error":info.message});
         } else {
-          res.status(403).send(info.message);
+          res.status(403).send({"error":info.message});
         }
       } else {
         const token = jwt.sign({ id: user.id }, jwtSecret.secret);
