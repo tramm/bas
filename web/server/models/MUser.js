@@ -16,7 +16,7 @@ const muserSchema = new Schema({
         required: true,
     },
     pin: {
-        type: Number,
+        type: String,
         required: true,
     },
     mobile: {
@@ -34,7 +34,7 @@ const muserSchema = new Schema({
     },
     displayName: String,
     address:[addressSchema],
-    vehicle:[{type: Schema.ObjectId, ref: 'Vehicle', require: true}]
+    vehicle:[{type: Schema.ObjectId, ref: 'Vehicle'}]
 
 });
 
