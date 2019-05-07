@@ -83,8 +83,8 @@ function auth_pass({ server }) {
             }
             bcrypt.compare(pin, user.pin).then((response) => {
               if (response !== true) {
-                console.log('passwords do not match');
-                return done(null, false, { message: 'passwords do not match' });
+                console.log('pins do not match');
+                return done(null, false, { message: 'pins do not match' });
               }
               console.log('user found & authenticated');
               return done(null, user);
@@ -141,7 +141,6 @@ function auth_pass({ server }) {
           auth: true,
           token,
           message: 'user registered & logged in',
-          static_host: STATIC_HOST,
         });
         console.log("Successful Login");
       }
@@ -168,14 +167,14 @@ function auth_pass({ server }) {
           auth: true,
           token,
           message: 'user found & logged in',
-          static_host: STATIC_HOST,
         });
         console.log("Successful Login");
       }
     })(req, res, next);
   });
   server.post('/otp_verify', async (req, res, next) => {
-    valid = OTP.validate({ token: req.body.token })
+    valid = await OTP.validate({ token: req.body.token,secret:req.body.secret })
+    console.log("speakeasy response - ",valid);
     if (!valid) {
       res.status(401).send({
         message: "Bad OTP try again"
@@ -192,15 +191,16 @@ function auth_pass({ server }) {
     console.log("Doing Verification");
     const user = await User.findOne({ mobile: req.body.mobile }).lean();
     if (user === null) {
-      res.status(401).send({
-        message: "Bad Mobile provided"
-      });
-      otp_val = await OTP.verify();
+      let secret = await OTP.generate();
+      let otp_val = await OTP.generate_otp(secret);
       console.log(otp_val);
       otp_message = " Thanks for downloading Book a service app please use OTP " + otp_val.token;
       log_message = "Sent Message to " + req.body.mobile
-      sms('9840021822', log_message.replace(/ /g, "%20"));
       sms(req.body.mobile, otp_message.replace(/ /g, "%20"));
+      res.status(200).send({
+        error: "User Not in System",
+        key:secret
+      });
     } else {
       res.status(200).send({
         message: 'mobile present in DB',

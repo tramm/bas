@@ -1,15 +1,12 @@
 const Speakeasy = require("speakeasy");
 const Sms = require('./sms');
-secret = "abc123";
-
 class Otp {
-    
-    static async generate(){
-        secret = Speakeasy.generateSecret({ length: 6 });
-        return { "secret": secret };
 
+    static async generate_secret() {
+        secret = Speakeasy.generateSecret({ length: 6 });
+        return secret.base32;
     };
-    static async verify() {
+    static async generate_otp() {
         console.log(secret);
         //secret_val = await Speakeasy.generateSecret({ length: 6 }); 
         return {
@@ -20,7 +17,7 @@ class Otp {
             "remaining": (30 - Math.floor((new Date()).getTime() / 1000.0 % 30))
         };
     };
-    static async validate({token}){
+    static async validate({ token, secret }) {
         return Speakeasy.totp.verify({
             secret: secret,
             encoding: "base32",

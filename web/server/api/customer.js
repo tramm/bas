@@ -13,18 +13,24 @@ router.use((req, res, next) => {
   passport.authenticate('jwt', { session: false }, (err, user, info) => {
     if (err) {
       console.error(err);
-      res.status(4011).send("Unauthorized Access");
+      res.status(401).send("Unauthorized Access");
+      return;
     }
     if (info !== undefined) {
-      res.status(403).send(info.message);
-    } else {
-      res.status(200).send("You have succcesfully Authenticated");
+      console.log(req);
+      console.log(info.message);
+      res.status(403).send({ "error": info.message });
+      return;
     }
+    console.log(user);
+    req.user = user;
+    next();
   })(req, res, next);
 });
 
 router.get('/users', async (req, res) => {
   try {
+    console.log(req.user.mobile);
     const muser = await MUser.list();
     res.json(muser);
   } catch (err) {
@@ -44,6 +50,7 @@ router.post('/user/add', async (req, res) => {
 
 router.get('/offers', async (req, res) => {
   try {
+    console.log(Offer);
     const books = await Offer.list();
     res.json(books);
   } catch (err) {
@@ -63,15 +70,164 @@ router.post('/offers/add', async (req, res) => {
     res.json({ error: err.message || err.toString() });
   }
 });
+router.get('/offers/list', async (req, res) => {
+  try {
+    const offerList = await Offer.listByCategory(req.body);
+    console.log("In public API");
+    console.log(offerList);
+    res.json(offerList);
+  } catch (err) {
+    res.json({ error: err.message || err.toString() });
+  }
+});
 
 router.get('/services', async (req, res) => {
-    try {
-      const services = await Service.list();
-      res.json(services);
-    } catch (err) {
-      res.json({ error: err.message || err.toString() });
+  try {
+    const services = await categories.list();
+    res.json(services);
+  } catch (err) {
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.post('/services/add', async (req, res) => {
+  try {
+    let val = Object.assign({ userId: 1239 }, req.body);
+    console.log(val);
+    console.log(req);
+    const offer = await categories.add(req.body);
+    res.json(offer);
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.get('/vehicles', async (req, res) => {
+  try {
+    const vehicles = await Vehicle.list();
+    res.json(vehicles);
+  } catch (err) {
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.post('/vehicles/add', async (req, res) => {
+  try {
+    const vehicles = await Vehicle.add(req.body);
+    res.json(vehicles);
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.put('/vehicles/update', async (req, res) => {
+  try {
+    const myParams = req.body;
+    console.log("The body values are "+myParams[0].model);
+    console.log("The body values are "+myParams.length);
+    for(var i = 0; i<myParams.length; i++){
+        const vehicles = await Vehicle.update(myParams[i].id, req.body);
     }
-  });
+    res.json("Updated successfully");
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.delete('/vehicles/delete', async (req, res) => {
+  try {
+    const myParams = req.body;
+    console.log("The body values are "+myParams[0].model);
+    console.log("The body values are "+myParams.length);
+    for(var i = 0; i<myParams.length; i++){
+        const vehicles = await Vehicle.delete(myParams[i].id);
+    }
+    res.json("Deleted successfully");
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.get('/partners', async (req, res) => {
+  try {
+    const partners = await Partner.list();
+    res.json(partners);
+  } catch (err) {
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.post('/partners/add', async (req, res) => {
+  try {
+    const partners = await Partner.add(req.body);
+    res.json(partners);
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.get('/bookings', async (req, res) => {
+  try {
+    const bookings = await Booking.list();
+    res.json(bookings);
+  } catch (err) {
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.post('/bookings/add', async (req, res) => {
+  try {
+    const bookings = await Booking.add(req.body);
+    res.json(bookings);
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.get('/leads', async (req, res) => {
+  try {
+    const leads = await Leads.list();
+    res.json(leads);
+  } catch (err) {
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.post('/leads/add', async (req, res) => {
+  try {
+    const leads = await Leads.add(req.body);
+    res.json(leads);
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.get('/serCenters', async (req,res) => {
+  try{
+    const serCenters = await ServiceCenter.list();
+    res.json(serCenters);
+  } catch (err) {
+    logger.error(err);
+    res.json({error: err.message || err.toString() })
+  }
+})
+
+router.post('/serCenters/add', async (req, res) => {
+  try {
+    const serCenters = await ServiceCenter.add(req.body);
+    res.json(serCenters);
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
 
 
 module.exports = router;
