@@ -62,6 +62,19 @@ class BookingClass {
     console.log(book);
     return book;
   }
+
+  static async update(id, req) {
+    const updBooking = await this.findByIdAndUpdate(id, {$set: req});
+    console.log(updBooking);
+    return updBooking;
+  }
+
+  static async delete(id) {
+    const delBooking = await this.findByIdAndRemove(id);
+    console.log(delBooking);
+    return delBooking;
+  }
+
 }
 mongoSchema.loadClass(BookingClass);
 

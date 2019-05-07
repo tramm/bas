@@ -81,6 +81,19 @@ class PartnerClass {
         throw new Error('User cannot be created without mobile number');
     }
   }
+
+  static async update(id, req) {
+    const updPartner = await this.findByIdAndUpdate(id, {$set: req});
+    console.log(updPartner);
+    return updPartner;
+  }
+
+  static async delete(id) {
+    const delPartner = await this.findByIdAndRemove(id);
+    console.log(delPartner);
+    return delPartner;
+  }
+
 }
 mongoSchema.loadClass(PartnerClass);
 

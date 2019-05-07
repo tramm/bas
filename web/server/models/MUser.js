@@ -27,6 +27,15 @@ const muserSchema = new Schema({
         type: Date,
         required: true,
     },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    tag: {
+        type: String,
+        required: true,
+    },
     isAdmin: {
         type: Boolean,
         default: false,
@@ -40,16 +49,15 @@ const muserSchema = new Schema({
 class MUserClass {
     // User's public fields
     static publicFields() {
-        return ['id', 'displayName', 'mobile', 'isAdmin', 'pin'];
+        return ['name', 'mobile', 'tag', 'email'];
     }
     static async list() {
-        var populateMusersQuery = [{path:'vehicle'}];
         const users = await this.find({})
-            .populate(populateMusersQuery)
+            .select(MUserClass.publicFields().join(' '))
             .sort({ createdAt: -1 });
         return { users };
     }
-    static async add({name,mobile,pin,address,vehicle_id}){
+    static async add({name,mobile,pin,email,tag,address,vehicle_id}){
         console.log("the vehicle is "+vehicle_id);
         if (mobile){
             const user = await this.findOne({ mobile });
@@ -61,6 +69,8 @@ class MUserClass {
                 name,
                 mobile,
                 pin,
+                email,
+                tag,
                 address,
                 vehicle
             });

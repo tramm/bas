@@ -60,6 +60,19 @@ class OfferClass {
     console.log(ret.category);
     return ret;
   }
+
+  static async update(id, req) {
+    const updOffer = await this.findByIdAndUpdate(id, {$set: req});
+    console.log(updOffer);
+    return updOffer;
+  }
+
+  static async delete(id) {
+    const delOffer = await this.findByIdAndRemove(id);
+    console.log(delOffer);
+    return delOffer;
+  }
+
 }
 mongoSchema.loadClass(OfferClass);
 const Offer = mongoose.model('Offer', mongoSchema);

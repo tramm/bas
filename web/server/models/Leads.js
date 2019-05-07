@@ -34,6 +34,19 @@ class LeadsClass {
     });
     return lead;
   }
+
+  static async update(id, req) {
+    const updLeads = await this.findByIdAndUpdate(id, {$set: req});
+    console.log(updLeads);
+    return updLeads;
+  }
+
+  static async delete(id) {
+    const delLeads = await this.findByIdAndRemove(id);
+    console.log(delLeads);
+    return delLeads;
+  }
+
 }
 mongoSchema.loadClass(LeadsClass);
 

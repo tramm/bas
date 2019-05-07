@@ -51,6 +51,19 @@ class ServiceCenterClass {
     console.log("created sercenter partner "+serCenter.partner);
     return serCenter;
   }
+
+  static async update(id, req) {
+    const updServiceCenter = await this.findByIdAndUpdate(id, {$set: req});
+    console.log(updServiceCenter);
+    return updServiceCenter;
+  }
+
+  static async delete(id) {
+    const delServiceCenter = await this.findByIdAndRemove(id);
+    console.log(delServiceCenter);
+    return delServiceCenter;
+  }
+
 }
 mongoSchema.loadClass(ServiceCenterClass);
 
