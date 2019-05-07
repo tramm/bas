@@ -82,7 +82,7 @@ class MUserClass {
         }
     };
     static async update(id , req){
-        const updUser = await MUser.findByIdAndUpdate(id, {$set:req});
+        const updUser = await MUser.findByIdAndUpdate(id, {$set:req},{new: true});
         console.log(updUser);
         return updUser;
     }

@@ -37,22 +37,22 @@ router.post('/user/add', async (req, res) => {
   }
 });
 
-router.put('/users/update', async (req, res) => {
+router.post('/users/update', async (req, res) => {
   try {
        const myParams = req.body;
        const user = await MUser.update(myParams.id, req.body);
-       res.json("Updated successfully");
+       res.json(user);
   } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });
   }
 });
 
-router.delete('/users/delete', async (req, res) => {
+router.post('/users/delete', async (req, res) => {
   try {
     const myParams = req.body;
     const user = await MUser.delete(myParams.id);
-    res.json("Deleted successfully");
+    res.json(user);
   } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });
