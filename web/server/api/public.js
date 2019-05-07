@@ -39,11 +39,9 @@ router.post('/user/add', async (req, res) => {
 
 router.put('/users/update', async (req, res) => {
   try {
-    const myParams = req.body;
-    for(var i = 0; i<myParams.length; i++){
-        const user = await MUser.update(myParams[i].id, req.body);
-    }
-    res.json("Updated successfully");
+       const myParams = req.body;
+       const user = await MUser.update(myParams.id, req.body);
+       res.json("Updated successfully");
   } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });
@@ -53,9 +51,7 @@ router.put('/users/update', async (req, res) => {
 router.delete('/users/delete', async (req, res) => {
   try {
     const myParams = req.body;
-    for(var i = 0; i<myParams.length; i++){
-        const user = await MUser.delete(myParams[i].id);
-    }
+    const user = await MUser.delete(myParams.id);
     res.json("Deleted successfully");
   } catch (err) {
     logger.error(err);

@@ -81,6 +81,16 @@ class MUserClass {
             throw new Error('User cannot be created without mobile number');
         }
     };
+    static async update(id , req){
+        const updUser = await MUser.findByIdAndUpdate(id, {$set:req});
+        console.log(updUser);
+        return updUser;
+    }
+    static async delete(id){
+        const delUser = await MUser.findByIdAndDelete(id);
+        console.log(delUser);
+        return delUser;
+    }
     static async signInOrSignUp({
         googleId, email, googleToken, displayName, avatarUrl,
     }) {
