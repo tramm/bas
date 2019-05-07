@@ -6,7 +6,6 @@ const { Schema } = mongoose;
 const addressSchema = new Schema({
     street: {
         type: String,
-        required: true,
     },
 });
 const muserSchema = new Schema({
@@ -16,7 +15,6 @@ const muserSchema = new Schema({
     },
     pin: {
         type: String,
-        required: true,
     },
     mobile: {
         type: String,

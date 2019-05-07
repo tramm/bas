@@ -27,7 +27,7 @@ router.get('/users', async (req, res) => {
   }
 });
 
-router.post('/user/add', async (req, res) => {
+router.post('/users/add', async (req, res) => {
   try {
     const user = await MUser.add(req.body);
     res.json(user);
