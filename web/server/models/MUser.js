@@ -3,11 +3,6 @@ const _ = require('lodash');
 const Vehicle = require('./Vehicle');
 
 const { Schema } = mongoose;
-const addressSchema = new Schema({
-    street: {
-        type: String,
-    },
-});
 const muserSchema = new Schema({
 
     name: {
@@ -39,7 +34,6 @@ const muserSchema = new Schema({
         default: false,
     },
     displayName: String,
-    address:[addressSchema],
     vehicle:[{type: Schema.ObjectId, ref: 'Vehicle'}]
 
 });
