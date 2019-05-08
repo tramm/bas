@@ -34,6 +34,7 @@ const muserSchema = new Schema({
         default: false,
     },
     displayName: String,
+    partner:[{type: Schema.ObjectId, ref: 'Partner'}],
     vehicle:[{type: Schema.ObjectId, ref: 'Vehicle'}]
 
 });
@@ -45,11 +46,10 @@ class MUserClass {
     }
     static async list() {
         const users = await this.find({})
-            .select(MUserClass.publicFields().join(' '))
             .sort({ createdAt: -1 });
         return { users };
     }
-    static async add({name,mobile,pin,email,tag,address,vehicle_id}){
+    static async add({name,mobile,pin,email,tag,partner_id,vehicle_id}){
         console.log("the vehicle is "+vehicle_id);
         if (mobile){
             const user = await this.findOne({ mobile });
@@ -63,7 +63,7 @@ class MUserClass {
                 pin,
                 email,
                 tag,
-                address,
+                partner,
                 vehicle
             });
             console.log(newUser.vehicle);

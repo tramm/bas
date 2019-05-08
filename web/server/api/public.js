@@ -10,6 +10,8 @@ const Leads = require('../models/Leads');
 
 const categories = require('../models/ServiceCategory');
 const ServiceCenter = require('../models/ServiceCenter');
+const VehicleBrands = require('../models/Vehicle_Brands');
+
 const logger = require('../logs');
 const router = express.Router();
 
@@ -236,26 +238,22 @@ router.post('/partners/add', async (req, res) => {
   }
 });
 
-router.put('/partners/update', async (req, res) => {
+router.post('/partners/update', async (req, res) => {
   try {
     const myParams = req.body;
-    for(var i = 0; i<myParams.length; i++){
-        const partner = await Partner.update(myParams[i].id, req.body);
-    }
-    res.json("Updated successfully");
+    const partner = await Partner.update(myParams.id, req.body);
+    res.json(partner);
   } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });
   }
 });
 
-router.delete('/partners/delete', async (req, res) => {
+router.post('/partners/delete', async (req, res) => {
   try {
     const myParams = req.body;
-    for(var i = 0; i<myParams.length; i++){
-        const partner = await Partner.delete(myParams[i].id);
-    }
-    res.json("Deleted successfully");
+    const partner = await Partner.delete(myParams.id);
+    res.json(partner);
   } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });
@@ -395,6 +393,26 @@ router.delete('/serCenters/delete', async (req, res) => {
         const serCenters = await ServiceCenter.delete(myParams[i].id);
     }
     res.json("Deleted successfully");
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.get('/vehicleBrands', async (req,res) => {
+  try{
+    const vehicleBrands = await VehicleBrands.list();
+    res.json(vehicleBrands);
+  } catch (err) {
+    logger.error(err);
+    res.json({error: err.message || err.toString() })
+  }
+})
+
+router.post('/vehicleBrands/add', async (req, res) => {
+  try {
+    const vehicleBrands = await VehicleBrands.add(req.body);
+    res.json(vehicleBrands);
   } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });
