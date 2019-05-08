@@ -231,7 +231,7 @@ router.get('/partners', async (req, res) => {
 router.post('/partners/add', async (req, res) => {
   try {
     const partners = await Partner.add(req.body);
-    res.json(partners);
+    res.json({message: "Successfully Added"});
   } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });
@@ -242,7 +242,7 @@ router.post('/partners/update', async (req, res) => {
   try {
     const myParams = req.body;
     const partner = await Partner.update(myParams.id, req.body);
-    res.json(partner);
+    res.json({message: "Successfully Updated"});
   } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });
@@ -253,7 +253,7 @@ router.post('/partners/delete', async (req, res) => {
   try {
     const myParams = req.body;
     const partner = await Partner.delete(myParams.id);
-    res.json(partner);
+    res.json({message: "Successfully Deleted"});
   } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });
