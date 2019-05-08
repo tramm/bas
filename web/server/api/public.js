@@ -273,7 +273,7 @@ router.get('/bookings', async (req, res) => {
 router.post('/bookings/add', async (req, res) => {
   try {
     const bookings = await Booking.add(req.body);
-    res.json(bookings);
+    res.json({message: "Successfully Added"});
   } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });
