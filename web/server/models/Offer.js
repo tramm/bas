@@ -47,7 +47,7 @@ class OfferClass {
   static async listByCategory({ category_id }) {
     console.log(category_id);
     const offerList = await this.find({ category: category_id })
-    return { offerList };
+    return { "url": STATIC_HOST, "offerList": offerList };
   }
   static async add({ name, description, url, price,serviceCenter_Id, serviceCenter_Name, category_id }) {
     console.log("the category is " + category_id);

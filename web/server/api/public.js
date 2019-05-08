@@ -84,7 +84,7 @@ router.post('/offers/add', async (req, res) => {
     res.json({ error: err.message || err.toString() });
   }
 });
-router.get('/offers/list', async (req, res) => {
+router.post('/offers/list', async (req, res) => {
   try {
     const offerList = await Offer.listByCategory(req.body);
     console.log("In public API");
