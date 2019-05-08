@@ -10,6 +10,8 @@ const Leads = require('../models/Leads');
 
 const categories = require('../models/ServiceCategory');
 const ServiceCenter = require('../models/ServiceCenter');
+const VehicleBrands = require('../models/Vehicle_Brands');
+
 const logger = require('../logs');
 const router = express.Router();
 
@@ -76,13 +78,13 @@ router.post('/offers/add', async (req, res) => {
     console.log(val);
     console.log(req);
     const offer = await Offer.add(req.body);
-    res.json(offer);
+    res.json({message: "Successfully Added"});
   } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });
   }
 });
-router.get('/offers/list', async (req, res) => {
+router.post('/offers/list', async (req, res) => {
   try {
     const offerList = await Offer.listByCategory(req.body);
     console.log("In public API");
@@ -93,7 +95,7 @@ router.get('/offers/list', async (req, res) => {
   }
 });
 
-router.put('/offers/update', async (req, res) => {
+router.post('/offers/update', async (req, res) => {
   try {
     const myParams = req.body;
     for(var i = 0; i<myParams.length; i++){
@@ -106,7 +108,7 @@ router.put('/offers/update', async (req, res) => {
   }
 });
 
-router.delete('/offers/delete', async (req, res) => {
+router.post('/offers/delete', async (req, res) => {
   try {
     const myParams = req.body;
     for(var i = 0; i<myParams.length; i++){
@@ -141,7 +143,7 @@ router.post('/services/add', async (req, res) => {
   }
 });
 
-router.put('/services/update', async (req, res) => {
+router.post('/services/update', async (req, res) => {
   try {
     const myParams = req.body;
     for(var i = 0; i<myParams.length; i++){
@@ -154,7 +156,7 @@ router.put('/services/update', async (req, res) => {
   }
 });
 
-router.delete('/services/delete', async (req, res) => {
+router.post('/services/delete', async (req, res) => {
   try {
     const myParams = req.body;
     for(var i = 0; i<myParams.length; i++){
@@ -187,7 +189,7 @@ router.post('/vehicles/add', async (req, res) => {
   }
 });
 
-router.put('/vehicles/update', async (req, res) => {
+router.post('/vehicles/update', async (req, res) => {
   try {
     const myParams = req.body;
     console.log("The body values are "+myParams[0].model);
@@ -202,7 +204,7 @@ router.put('/vehicles/update', async (req, res) => {
   }
 });
 
-router.delete('/vehicles/delete', async (req, res) => {
+router.post('/vehicles/delete', async (req, res) => {
   try {
     const myParams = req.body;
     console.log("The body values are "+myParams[0].model);
@@ -229,33 +231,29 @@ router.get('/partners', async (req, res) => {
 router.post('/partners/add', async (req, res) => {
   try {
     const partners = await Partner.add(req.body);
-    res.json(partners);
+    res.json({message: "Successfully Added"});
   } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });
   }
 });
 
-router.put('/partners/update', async (req, res) => {
+router.post('/partners/update', async (req, res) => {
   try {
     const myParams = req.body;
-    for(var i = 0; i<myParams.length; i++){
-        const partner = await Partner.update(myParams[i].id, req.body);
-    }
-    res.json("Updated successfully");
+    const partner = await Partner.update(myParams.id, req.body);
+    res.json({message: "Successfully Updated"});
   } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });
   }
 });
 
-router.delete('/partners/delete', async (req, res) => {
+router.post('/partners/delete', async (req, res) => {
   try {
     const myParams = req.body;
-    for(var i = 0; i<myParams.length; i++){
-        const partner = await Partner.delete(myParams[i].id);
-    }
-    res.json("Deleted successfully");
+    const partner = await Partner.delete(myParams.id);
+    res.json({message: "Successfully Deleted"});
   } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });
@@ -282,7 +280,7 @@ router.post('/bookings/add', async (req, res) => {
   }
 });
 
-router.put('/bookings/update', async (req, res) => {
+router.post('/bookings/update', async (req, res) => {
   try {
     const myParams = req.body;
     for(var i = 0; i<myParams.length; i++){
@@ -295,7 +293,7 @@ router.put('/bookings/update', async (req, res) => {
   }
 });
 
-router.delete('/bookings/delete', async (req, res) => {
+router.post('/bookings/delete', async (req, res) => {
   try {
     const myParams = req.body;
     for(var i = 0; i<myParams.length; i++){
@@ -328,7 +326,7 @@ router.post('/leads/add', async (req, res) => {
   }
 });
 
-router.put('/leads/update', async (req, res) => {
+router.post('/leads/update', async (req, res) => {
   try {
     const myParams = req.body;
     for(var i = 0; i<myParams.length; i++){
@@ -341,7 +339,7 @@ router.put('/leads/update', async (req, res) => {
   }
 });
 
-router.delete('/leads/delete', async (req, res) => {
+router.post('/leads/delete', async (req, res) => {
   try {
     const myParams = req.body;
     for(var i = 0; i<myParams.length; i++){
@@ -375,7 +373,7 @@ router.post('/serCenters/add', async (req, res) => {
   }
 });
 
-router.put('/serCenters/update', async (req, res) => {
+router.post('/serCenters/update', async (req, res) => {
   try {
     const myParams = req.body;
     for(var i = 0; i<myParams.length; i++){
@@ -388,13 +386,33 @@ router.put('/serCenters/update', async (req, res) => {
   }
 });
 
-router.delete('/serCenters/delete', async (req, res) => {
+router.post('/serCenters/delete', async (req, res) => {
   try {
     const myParams = req.body;
     for(var i = 0; i<myParams.length; i++){
         const serCenters = await ServiceCenter.delete(myParams[i].id);
     }
     res.json("Deleted successfully");
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.get('/vehicleBrands', async (req,res) => {
+  try{
+    const vehicleBrands = await VehicleBrands.list();
+    res.json(vehicleBrands);
+  } catch (err) {
+    logger.error(err);
+    res.json({error: err.message || err.toString() })
+  }
+})
+
+router.post('/vehicleBrands/add', async (req, res) => {
+  try {
+    const vehicleBrands = await VehicleBrands.add(req.body);
+    res.json(vehicleBrands);
   } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });

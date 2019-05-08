@@ -14,27 +14,12 @@ const mongoSchema = new Schema({
   mobile: {
     type: String,
     required: true,
-    unique: true,
-  },
-  pin: {
-    type: Number,
-    required: true,
   },
   email: {
     type: String,
-    required: true,
   },
-  street1: {
+  tag:{
     type: String,
-    required: true,
-  },
-  street2: {
-    type: String,
-    required: true,
-  },
-  zip: {
-    type: String,
-    required: true,
   },
   is_customer: {
     type: Boolean,
@@ -51,39 +36,33 @@ const mongoSchema = new Schema({
 });
 
 class PartnerClass {
+
+  // partner's public fields
+  static publicFields() {
+    return ['name', 'mobile', 'tag', 'email'];
+}
   static async list({ offset = 0, limit = 10 } = {}) {
     const partners = await this.find({})
+      .select(PartnerClass.publicFields().join(' '))
       .sort({ active: -1 })
       .skip(offset)
       .limit(limit);
     return { "url":STATIC_HOST,"partners":partners };
   }
-  static async add({ name, mobile, pin, email, street1, street2, city, zip, is_customer, is_service_center, is_admin}) {
-    if (mobile){
-        const user = await this.findOne({ mobile });
-        if(user)return user;
-        const partner =  this.create({
+  static async add({ name, mobile, email, tag, is_customer, is_service_center, is_admin}) {
+      return this.create({
             name,
             mobile,
-            pin,
             email,
-            street1,
-            street2,
-            city,
-            zip,
+            tag,
             is_customer,
             is_service_center,
             is_admin
         });
-     return partner;
-    }else {
-        console.log("ERROR in request - no mobile");
-        throw new Error('User cannot be created without mobile number');
-    }
   }
 
   static async update(id, req) {
-    const updPartner = await this.findByIdAndUpdate(id, {$set: req});
+    const updPartner = await this.findByIdAndUpdate(id, {$set: req}, {new: true});
     console.log(updPartner);
     return updPartner;
   }
