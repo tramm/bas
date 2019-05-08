@@ -191,7 +191,7 @@ function auth_pass({ server }) {
     console.log("Doing Verification");
     const user = await User.findOne({ mobile: req.body.mobile }).lean();
     if (user === null) {
-      let secret = await OTP.generate();
+      let secret = await OTP.generate_secret();
       let otp_val = await OTP.generate_otp(secret);
       console.log(otp_val);
       otp_message = " Thanks for downloading Book a service app please use OTP " + otp_val.token;
