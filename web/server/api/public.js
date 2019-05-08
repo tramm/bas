@@ -78,7 +78,7 @@ router.post('/offers/add', async (req, res) => {
     console.log(val);
     console.log(req);
     const offer = await Offer.add(req.body);
-    res.json(offer);
+    res.json({message: "Successfully Added"});
   } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });
@@ -95,7 +95,7 @@ router.get('/offers/list', async (req, res) => {
   }
 });
 
-router.put('/offers/update', async (req, res) => {
+router.post('/offers/update', async (req, res) => {
   try {
     const myParams = req.body;
     for(var i = 0; i<myParams.length; i++){
@@ -108,7 +108,7 @@ router.put('/offers/update', async (req, res) => {
   }
 });
 
-router.delete('/offers/delete', async (req, res) => {
+router.post('/offers/delete', async (req, res) => {
   try {
     const myParams = req.body;
     for(var i = 0; i<myParams.length; i++){
@@ -143,7 +143,7 @@ router.post('/services/add', async (req, res) => {
   }
 });
 
-router.put('/services/update', async (req, res) => {
+router.post('/services/update', async (req, res) => {
   try {
     const myParams = req.body;
     for(var i = 0; i<myParams.length; i++){
@@ -156,7 +156,7 @@ router.put('/services/update', async (req, res) => {
   }
 });
 
-router.delete('/services/delete', async (req, res) => {
+router.post('/services/delete', async (req, res) => {
   try {
     const myParams = req.body;
     for(var i = 0; i<myParams.length; i++){
@@ -189,7 +189,7 @@ router.post('/vehicles/add', async (req, res) => {
   }
 });
 
-router.put('/vehicles/update', async (req, res) => {
+router.post('/vehicles/update', async (req, res) => {
   try {
     const myParams = req.body;
     console.log("The body values are "+myParams[0].model);
@@ -204,7 +204,7 @@ router.put('/vehicles/update', async (req, res) => {
   }
 });
 
-router.delete('/vehicles/delete', async (req, res) => {
+router.post('/vehicles/delete', async (req, res) => {
   try {
     const myParams = req.body;
     console.log("The body values are "+myParams[0].model);
@@ -280,7 +280,7 @@ router.post('/bookings/add', async (req, res) => {
   }
 });
 
-router.put('/bookings/update', async (req, res) => {
+router.post('/bookings/update', async (req, res) => {
   try {
     const myParams = req.body;
     for(var i = 0; i<myParams.length; i++){
@@ -293,7 +293,7 @@ router.put('/bookings/update', async (req, res) => {
   }
 });
 
-router.delete('/bookings/delete', async (req, res) => {
+router.post('/bookings/delete', async (req, res) => {
   try {
     const myParams = req.body;
     for(var i = 0; i<myParams.length; i++){
@@ -326,7 +326,7 @@ router.post('/leads/add', async (req, res) => {
   }
 });
 
-router.put('/leads/update', async (req, res) => {
+router.post('/leads/update', async (req, res) => {
   try {
     const myParams = req.body;
     for(var i = 0; i<myParams.length; i++){
@@ -339,7 +339,7 @@ router.put('/leads/update', async (req, res) => {
   }
 });
 
-router.delete('/leads/delete', async (req, res) => {
+router.post('/leads/delete', async (req, res) => {
   try {
     const myParams = req.body;
     for(var i = 0; i<myParams.length; i++){
@@ -373,7 +373,7 @@ router.post('/serCenters/add', async (req, res) => {
   }
 });
 
-router.put('/serCenters/update', async (req, res) => {
+router.post('/serCenters/update', async (req, res) => {
   try {
     const myParams = req.body;
     for(var i = 0; i<myParams.length; i++){
@@ -386,7 +386,7 @@ router.put('/serCenters/update', async (req, res) => {
   }
 });
 
-router.delete('/serCenters/delete', async (req, res) => {
+router.post('/serCenters/delete', async (req, res) => {
   try {
     const myParams = req.body;
     for(var i = 0; i<myParams.length; i++){

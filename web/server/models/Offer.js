@@ -27,14 +27,18 @@ const mongoSchema = new Schema({
   price: {
     type: Number,
   },
+  serviceCenter_Id: {
+    type: String,
+  },
+  serviceCenter_Name: {
+    type: String,
+  },
   category: [{ type: Schema.ObjectId, ref: 'ServiceCategory', required: true }]
 });
 
 class OfferClass {
   static async list({ offset = 0, limit = 10 } = {}) {
-    var populateOfferQuery = [{path:'category'}];
     const offers = await this.find({})
-      .populate(populateOfferQuery)
       .sort({ createdAt: -1 })
       .skip(offset)
       .limit(limit);
@@ -45,9 +49,9 @@ class OfferClass {
     const offerList = await this.find({ category: category_id })
     return { offerList };
   }
-  static async add({ name, description, url, price, category_id }) {
+  static async add({ name, description, url, price,serviceCenter_Id, serviceCenter_Name, category_id }) {
     console.log("the category is " + category_id);
-    let category = await ServiceCategory.findById(category_id)
+    let category = await ServiceCategory.findById(category_id);
     console.log(category);
     let ret = this.create({
       name,
@@ -55,6 +59,8 @@ class OfferClass {
       url,
       price,
       createdAt: new Date(),
+      serviceCenter_Id,
+      serviceCenter_Name,
       category
     });
     console.log(ret.category);
