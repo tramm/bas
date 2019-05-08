@@ -10,7 +10,8 @@ const Leads = require('../models/Leads');
 
 const categories = require('../models/ServiceCategory');
 const ServiceCenter = require('../models/ServiceCenter');
-const VehicleBrands = require('../models/Vehicle_Brands');
+const VehicleBrand = require('../models/VehicleBrand');
+const VehicleModel = require('../models/VehicleModel');
 
 const logger = require('../logs');
 const router = express.Router();
@@ -401,8 +402,8 @@ router.post('/serCenters/delete', async (req, res) => {
 
 router.get('/vehicleBrands', async (req,res) => {
   try{
-    const vehicleBrands = await VehicleBrands.list();
-    res.json(vehicleBrands);
+    const vehicleBrand = await VehicleBrand.list();
+    res.json(vehicleBrand);
   } catch (err) {
     logger.error(err);
     res.json({error: err.message || err.toString() })
@@ -411,8 +412,28 @@ router.get('/vehicleBrands', async (req,res) => {
 
 router.post('/vehicleBrands/add', async (req, res) => {
   try {
-    const vehicleBrands = await VehicleBrands.add(req.body);
-    res.json(vehicleBrands);
+    const vehicleBrand = await VehicleBrand.add(req.body);
+    res.json({message: "Successfully Added"});
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.get('/vehicleModels', async (req,res) => {
+  try{
+    const vehicleModel = await VehicleModel.list();
+    res.json(vehicleModel);
+  } catch (err) {
+    logger.error(err);
+    res.json({error: err.message || err.toString() })
+  }
+})
+
+router.post('/vehicleModels/add', async (req, res) => {
+  try {
+    const vehicleModel = await VehicleModel.add(req.body);
+    res.json({message: "Successfully Added"});
   } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });
