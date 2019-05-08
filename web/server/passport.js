@@ -198,11 +198,13 @@ function auth_pass({ server }) {
       log_message = "Sent Message to " + req.body.mobile
       sms(req.body.mobile, otp_message.replace(/ /g, "%20"));
       res.status(200).send({
+        auth:false,
         error: "User Not in System",
         key:secret
       });
     } else {
       res.status(200).send({
+        auth:true,
         message: 'mobile present in DB',
       });
       console.log("Successful Login");
