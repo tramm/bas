@@ -13,11 +13,8 @@ const Vehicle = require('./Vehicle');
 
 
 const mongoSchema = new Schema({
-  status: {
-    type: Boolean,
-  },
   dateOfService: {
-    type: Date,
+    type: String,
     required: true,
   },
   offer: {
@@ -44,7 +41,7 @@ class BookingClass {
       .limit(limit);
     return { "url":STATIC_HOST,"bookings":bookings };
   }
-  static async add({offers_id, partner_id, status, vehicle_id}) {
+  static async add({dateOfService, offers_id, partner_id, vehicle_id}) {
     console.log("the offer is "+offers_id);
     console.log("the user is "+partner_id);
     /* console.log("the category is "+category_id); */
@@ -58,12 +55,10 @@ class BookingClass {
     console.log(offer);
     /* console.log(category); */
     let book =  this.create({
-      dateOfService : new Date(),
+      dateOfService,
       vehicle,
       partner,
       offer,
-      /* category, */
-      status
     });
     console.log(book);
     return book;
