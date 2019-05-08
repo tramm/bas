@@ -3,10 +3,10 @@ const Sms = require('./sms');
 class Otp {
 
     static async generate_secret() {
-        secret = Speakeasy.generateSecret({ length: 6 });
+        let secret = Speakeasy.generateSecret({ length: 6 });
         return secret.base32;
     };
-    static async generate_otp() {
+    static async generate_otp(secret) {
         console.log(secret);
         //secret_val = await Speakeasy.generateSecret({ length: 6 }); 
         return {
