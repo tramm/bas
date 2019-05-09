@@ -18,11 +18,12 @@ class Otp {
         };
     };
     static async validate({ token, secret }) {
+        console.log("Secret in validate",secret);
         return Speakeasy.totp.verify({
             secret: secret,
             encoding: "base32",
             token: token,
-            window: 0
+            window: 2
         });
     };
 };
