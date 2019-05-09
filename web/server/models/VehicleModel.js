@@ -31,6 +31,11 @@ const vehicleModelSchema = new Schema({
             console.log(newModel.brand);
             return newModel;
   };
+  static async listByBrand({ brand_id }) {
+    console.log(brand_id);
+    const modelList = await this.find({ brand: brand_id })
+    return  modelList;
+  }
 };
 
   vehicleModelSchema.loadClass(VehicleModelClass);

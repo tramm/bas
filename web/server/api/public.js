@@ -33,7 +33,7 @@ router.get('/users', async (req, res) => {
 router.post('/users/add', async (req, res) => {
   try {
     const user = await MUser.add(req.body);
-    res.json(user);
+    res.json({message: "Successfully Added"});
   } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });
@@ -44,8 +44,8 @@ router.post('/users/update', async (req, res) => {
   try {
        const myParams = req.body;
        const user = await MUser.update(myParams.id, req.body);
-       res.json(user);
-  } catch (err) {
+       res.json({message: "Successfully Updated"});
+      } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });
   }
@@ -55,7 +55,7 @@ router.post('/users/delete', async (req, res) => {
   try {
     const myParams = req.body;
     const user = await MUser.delete(myParams.id);
-    res.json(user);
+    res.json({message: "Successfully Deleted"});
   } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });
@@ -436,6 +436,16 @@ router.post('/vehicleModels/add', async (req, res) => {
     res.json({message: "Successfully Added"});
   } catch (err) {
     logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.post('/vehicleModels/listByBrand', async (req, res) => {
+  try {
+    const modelList = await VehicleModel.listByBrand(req.body);
+    console.log(modelList);
+    res.json(modelList);
+  } catch (err) {
     res.json({ error: err.message || err.toString() });
   }
 });
