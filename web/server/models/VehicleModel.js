@@ -34,7 +34,7 @@ const vehicleModelSchema = new Schema({
   static async listByBrand({ brand_id }) {
     console.log(brand_id);
     const modelList = await this.find({ brand: brand_id })
-    return  modelList;
+    return { modelList };
   }
 };
 
