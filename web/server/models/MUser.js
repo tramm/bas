@@ -46,21 +46,17 @@ const muserSchema = new Schema({
     },
     mobile: {
         type: String,
-        required: true,
         unique: true,
     },
     createdAt: {
         type: Date,
-        required: true,
     },
     email: {
         type: String,
-        required: true,
         unique: true,
     },
     tag: {
         type: String,
-        required: true,
     },
     isAdmin: {
         type: Boolean,
