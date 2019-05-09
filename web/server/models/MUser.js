@@ -1,8 +1,41 @@
 const mongoose = require('mongoose');
 const _ = require('lodash');
-const Vehicle = require('./Vehicle');
+const Partner = require('./Partner');
+const VehicleBrand = require('./VehicleBrand');
+const VehicleModel = require('./VehicleModel');
+
 
 const { Schema } = mongoose;
+const vehicleSchema = new Schema({
+      color: {
+        type: String,
+      },
+      variant: {
+        type: String,
+      },
+      registration_Number: {
+        type: String,
+      },
+      tag: {
+        type: String,
+      },
+      year: {
+        type: Number,
+      },
+      active: {
+        type: Boolean,
+        default: true,
+      },
+      manufacturer: {
+        type: Schema.ObjectId, 
+        ref: 'VehicleBrand'
+      },
+      model: {
+        type: Schema.ObjectId, 
+        ref: 'VehicleModel'
+      }
+});
+
 const muserSchema = new Schema({
 
     name: {
@@ -34,9 +67,8 @@ const muserSchema = new Schema({
         default: false,
     },
     displayName: String,
-    partner:[{type: Schema.ObjectId, ref: 'Partner'}],
-    vehicle:[{type: Schema.ObjectId, ref: 'Vehicle'}]
-
+    vehicle:[vehicleSchema],
+    partner:[{type: Schema.ObjectId, ref: 'Partner'}]
 });
 
 class MUserClass {
@@ -45,17 +77,18 @@ class MUserClass {
         return ['name', 'mobile', 'tag', 'email'];
     }
     static async list() {
+        const populateMUserVehicle = [{path: "vehicle.manufacturer"},{path: "vehicle.model"}];
         const users = await this.find({})
+            .populate(populateMUserVehicle)
             .sort({ createdAt: -1 });
         return { users };
     }
-    static async add({name,mobile,pin,email,tag,partner_id,vehicle_id}){
-        console.log("the vehicle is "+vehicle_id);
+    static async add({name,mobile,pin,email,tag,partner_id,vehicle}){
         if (mobile){
             const user = await this.findOne({ mobile });
             if(user)return user;
-            let vehicle = await Vehicle.findById(vehicle_id);
-            console.log(vehicle);
+            let partner = await Partner.findById(partner_id);
+            console.log(partner);
             const newUser = await this.create({
                 createdAt: new Date(),
                 name,

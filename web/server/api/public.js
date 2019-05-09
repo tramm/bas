@@ -10,7 +10,8 @@ const Leads = require('../models/Leads');
 
 const categories = require('../models/ServiceCategory');
 const ServiceCenter = require('../models/ServiceCenter');
-const VehicleBrands = require('../models/Vehicle_Brands');
+const VehicleBrand = require('../models/VehicleBrand');
+const VehicleModel = require('../models/VehicleModel');
 
 const logger = require('../logs');
 const router = express.Router();
@@ -32,7 +33,7 @@ router.get('/users', async (req, res) => {
 router.post('/users/add', async (req, res) => {
   try {
     const user = await MUser.add(req.body);
-    res.json(user);
+    res.json({message: "Successfully Added"});
   } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });
@@ -43,8 +44,8 @@ router.post('/users/update', async (req, res) => {
   try {
        const myParams = req.body;
        const user = await MUser.update(myParams.id, req.body);
-       res.json(user);
-  } catch (err) {
+       res.json({message: "Successfully Updated"});
+      } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });
   }
@@ -54,7 +55,7 @@ router.post('/users/delete', async (req, res) => {
   try {
     const myParams = req.body;
     const user = await MUser.delete(myParams.id);
-    res.json(user);
+    res.json({message: "Successfully Deleted"});
   } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });
@@ -273,7 +274,7 @@ router.get('/bookings', async (req, res) => {
 router.post('/bookings/add', async (req, res) => {
   try {
     const bookings = await Booking.add(req.body);
-    res.json(bookings);
+    res.json({message: "Successfully Added"});
   } catch (err) {
     logger.error(err);
     res.json({ error: err.message || err.toString() });
@@ -401,8 +402,8 @@ router.post('/serCenters/delete', async (req, res) => {
 
 router.get('/vehicleBrands', async (req,res) => {
   try{
-    const vehicleBrands = await VehicleBrands.list();
-    res.json(vehicleBrands);
+    const vehicleBrand = await VehicleBrand.list();
+    res.json(vehicleBrand);
   } catch (err) {
     logger.error(err);
     res.json({error: err.message || err.toString() })
@@ -411,10 +412,40 @@ router.get('/vehicleBrands', async (req,res) => {
 
 router.post('/vehicleBrands/add', async (req, res) => {
   try {
-    const vehicleBrands = await VehicleBrands.add(req.body);
-    res.json(vehicleBrands);
+    const vehicleBrand = await VehicleBrand.add(req.body);
+    res.json({message: "Successfully Added"});
   } catch (err) {
     logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.get('/vehicleModels', async (req,res) => {
+  try{
+    const vehicleModel = await VehicleModel.list();
+    res.json(vehicleModel);
+  } catch (err) {
+    logger.error(err);
+    res.json({error: err.message || err.toString() })
+  }
+})
+
+router.post('/vehicleModels/add', async (req, res) => {
+  try {
+    const vehicleModel = await VehicleModel.add(req.body);
+    res.json({message: "Successfully Added"});
+  } catch (err) {
+    logger.error(err);
+    res.json({ error: err.message || err.toString() });
+  }
+});
+
+router.post('/vehicleModels/listByBrand', async (req, res) => {
+  try {
+    const modelList = await VehicleModel.listByBrand(req.body);
+    console.log(modelList);
+    res.json(modelList);
+  } catch (err) {
     res.json({ error: err.message || err.toString() });
   }
 });
