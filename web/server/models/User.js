@@ -103,12 +103,12 @@ class UserClass {
         }
     };
     static async update(id, req) {
-        const updUser = await MUser.findByIdAndUpdate(id, { $set: req }, { new: true });
+        const updUser = await User.findByIdAndUpdate(id, { $set: req }, { new: true });
         console.log(updUser);
         return updUser;
     }
     static async delete(id) {
-        const delUser = await MUser.findByIdAndDelete(id);
+        const delUser = await User.findByIdAndDelete(id);
         console.log(delUser);
         return delUser;
     }
@@ -117,6 +117,13 @@ class UserClass {
         const addUserVehicle = await user.save();
         console.log(addUserVehicle);
         return addUserVehicle;
+    }
+    static async updateUserVehicle(user, vehicle) {
+        console.log("user is ", user._id);
+        console.log("vehicle is ", vehicle._id);
+        const updUser = await this.findOneAndUpdate({"_id": user._id,"vehicle._id": vehicle._id}, {"$set": {"vehicle.$": vehicle}}, {new: true});
+        console.log("The updated userVehicle is ",updUser);
+        return updUser;
     }
     static async deleteUserVehicle(user, {vehicle_id}) {
         console.log("user is ", user);
