@@ -1,12 +1,15 @@
 package com.bookservice.ui.activity.login.signin;
 
-import com.bookservice.network.Result;
+import com.bookservice.data.model.login.LoginResponse;
+import com.bookservice.data.model.verify.VerifyResponse;
 
 public interface ISignInView {
 
-    public void onSuccess(String result);
+    public void onSuccess(VerifyResponse result);
+    public void onSuccessLogin(LoginResponse result);
+
+
 
     public void onError(String result);
 
-    public void onBadAuthenticate(String result);
 }

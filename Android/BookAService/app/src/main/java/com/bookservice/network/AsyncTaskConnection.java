@@ -4,9 +4,12 @@ package com.bookservice.network;
 import android.app.Activity;
 import android.os.AsyncTask;
 
+import com.bookservice.utils.ConnectionUtils;
 import com.bookservice.utils.ProgressDialogUtil;
 import com.taishi.flipprogressdialog.FlipProgressDialog;
 
+import static com.bookservice.constants.Constants.NO_INTERNET;
+import static com.bookservice.constants.Constants.NO_INTERNET_CONNECTION;
 import static com.bookservice.constants.Constants.OK;
 import static com.bookservice.constants.Constants.POST;
 
@@ -46,10 +49,17 @@ public class AsyncTaskConnection extends AsyncTask<String, Void, Result> {
 
     @Override
     protected Result doInBackground(String... strings) {
-        if (mMethodType.equalsIgnoreCase(POST)) {
-            return WsConnection.doPostConnection(mUrl, mJson);
-        } else {
-            return WsConnection.doGetConnection(mUrl);
+        if (ConnectionUtils.isConnectedNetwork(mActivity)) {
+            if (mMethodType.equalsIgnoreCase(POST)) {
+                return WsConnection.doPostConnection(mUrl, mJson);
+            } else {
+                return WsConnection.doGetConnection(mUrl);
+            }
+        }else {
+            Result result = new Result();
+            result.setResponse(NO_INTERNET_CONNECTION);
+            result.setStatusCode(NO_INTERNET);
+            return result;
         }
     }
 
@@ -59,6 +69,8 @@ public class AsyncTaskConnection extends AsyncTask<String, Void, Result> {
         flipProgressDialog.dismiss();
         if (result.getStatusCode() == OK) {
             mConnectionListener.onSuccess(result);
+        } else if (result.getStatusCode() == NO_INTERNET) {
+            mConnectionListener.onNetworkFail(result.getResponse());
         } else {
             mConnectionListener.onFail(result);
         }

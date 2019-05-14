@@ -11,21 +11,25 @@ import android.widget.TextView;
 
 import com.bookservice.R;
 import com.bookservice.data.model.category.Category;
-import com.bookservice.data.pojos.SingleVertical;
 import com.bookservice.ui.activity.offer.OfferListActivity;
 import com.bookservice.utils.ImageLoad;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.bookservice.constants.Constants.EXTRA_CAT_ID;
+import static com.bookservice.constants.Constants.EXTRA_NAME;
+
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> {
     private List<Category> data = new ArrayList<>();
     Activity mActivity;
+    String mUrl;
 
-    public CategoryAdapter(Activity activity, List<Category> data) {
+    public CategoryAdapter(Activity activity, List<Category> data, String url) {
         this.data = data;
         this.mActivity = activity;
+        this.mUrl = url;
     }
 
     @Override
@@ -35,13 +39,16 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        ImageLoad.loadImage("" + data.get(position).getUrl(), holder.image);
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
+        ImageLoad.loadImageCategory(mUrl + data.get(position).getUrl(), holder.image);
+
         holder.txtTitle.setText(data.get(position).getName());
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mActivity, OfferListActivity.class);
+                intent.putExtra(EXTRA_NAME, data.get(position).getName());
+                intent.putExtra(EXTRA_CAT_ID, data.get(position).getId());
                 mActivity.startActivity(intent);
             }
         });

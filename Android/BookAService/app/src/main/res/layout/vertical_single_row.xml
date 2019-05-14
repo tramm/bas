@@ -6,6 +6,7 @@
     android:background="@color/snow"
     android:orientation="horizontal">
 
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -23,8 +24,8 @@
             android:layout_gravity="bottom"
             android:gravity="center"
             android:text="Car Wash"
-            android:textColor="@color/snow"
-            android:background="#70333333"
+            android:textColor="@color/drab"
+            android:background="#FFFFFF"
             android:padding="3dp"
             android:textSize="16sp" />
     </FrameLayout>

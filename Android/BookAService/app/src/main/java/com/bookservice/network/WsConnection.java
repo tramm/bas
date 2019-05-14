@@ -1,16 +1,16 @@
 package com.bookservice.network;
 
 
+import com.bookservice.preference.BsPreference;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import javax.net.ssl.SSLEngineResult;
-
-import static com.bookservice.constants.Constants.BAD_AUTHENTICATION;
 import static com.bookservice.constants.Constants.EXCEPTION_CODE;
+import static com.bookservice.constants.Constants.KEY_TOKEN;
 import static com.bookservice.constants.Constants.OK;
 import static com.bookservice.constants.Constants.TIMEOUT;
 
@@ -29,6 +29,7 @@ public class WsConnection {
             urlConnection.setRequestMethod("GET");
             urlConnection.setReadTimeout(TIMEOUT);
             urlConnection.setConnectTimeout(TIMEOUT);
+            urlConnection.setRequestProperty("Authorization", "JWT "+ BsPreference.getString(KEY_TOKEN));
             urlConnection.connect();
 
             responseCode = urlConnection.getResponseCode();
@@ -70,7 +71,7 @@ public class WsConnection {
             urlConnection.setReadTimeout(TIMEOUT);
             urlConnection.setConnectTimeout(TIMEOUT);
             urlConnection.setRequestProperty("Content-Type", "application/json");
-            //urlConnection.setRequestProperty("token", BsPreference.getString(KEY_TOKEN));
+            urlConnection.setRequestProperty("Authorization", "JWT "+BsPreference.getString(KEY_TOKEN));
 
             urlConnection.connect();
             OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream());

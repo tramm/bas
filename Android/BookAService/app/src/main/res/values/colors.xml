@@ -39,4 +39,16 @@
     <color name="mt_green">#50D2C2</color>
     <color name="mt_purple">#D667CD</color>
     <color name="mt_yellow">#FCAB53</color>
+
+    <color name="purple">#C7C4E9</color>
+    <color name="purpleDark">#736CC7</color>
+    <color name="pink">#FBB6D3</color>
+    <color name="pinkDark">#F64A91</color>
+    <color name="blue">#AFD6FA</color>
+    <color name="blueDark">#399AF2</color>
+    <color name="green">#ABE5D9</color>
+    <color name="greenDark">#2FBFA0</color>
+
+    <color name="yellow">#FFCE67</color>
+    <color name="red">#FF5C75</color>
 </resources>

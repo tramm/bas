@@ -24,13 +24,13 @@ public class Utils {
         return mPhoneNumber;
     }
 
-    public static void share(Activity activity) {
-        String shareBody = "Here is the share content body";
+    public static void share(Activity activity, String name, String description, String serviceCenter) {
+        String shareBody = "Checkout Offers from Book a Service App" + " , " + name + " , " + description + " from " + serviceCenter;
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-        activity.startActivity(Intent.createChooser(sharingIntent, "Share Offers from Book a Service"));
+        activity.startActivity(Intent.createChooser(sharingIntent, "Share Offers from Book a Service App"));
     }
 
     public static void hideIME(final Activity activity) {

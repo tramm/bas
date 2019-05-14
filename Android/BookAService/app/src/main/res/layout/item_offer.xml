@@ -37,7 +37,7 @@
             android:layout_height="40dp"
             android:layout_weight="0.1"
             android:padding="10dp"
-            android:src="@drawable/ic_collapse"
+            android:src="@drawable/ic_expand"
             android:visibility="visible" />
     </LinearLayout>
 
@@ -46,7 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
 
         <com.bookservice.utils.view.BsTextView

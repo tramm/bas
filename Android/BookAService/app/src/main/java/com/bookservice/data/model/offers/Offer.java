@@ -2,8 +2,13 @@
 package com.bookservice.data.model.offers;
 
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class Offer {
 
+    @SerializedName("_id")
+    @Expose
     private String id;
     private String name;
     private String description;
@@ -11,6 +16,13 @@ public class Offer {
     private Integer price;
     private String createdAt;
     private Integer v;
+    @SerializedName("serviceCenter_Id")
+    @Expose
+    private String serviceCenterId;
+
+    @SerializedName("serviceCenter_Name")
+    @Expose
+    private String serviceCenterName;
 
     public String getId() {
         return id;
@@ -68,4 +80,19 @@ public class Offer {
         this.v = v;
     }
 
+    public String getServiceCenterId() {
+        return serviceCenterId;
+    }
+
+    public void setServiceCenterId(String serviceCenterId) {
+        this.serviceCenterId = serviceCenterId;
+    }
+
+    public String getServiceCenterName() {
+        return serviceCenterName;
+    }
+
+    public void setServiceCenterName(String serviceCenterName) {
+        this.serviceCenterName = serviceCenterName;
+    }
 }
