@@ -40,7 +40,8 @@ router.get('/bookings', async (req, res) => {
 
 router.post('/bookings/add', async (req, res) => {
     try {
-        const bookings = await Booking.add(req.body);
+        console.log("The user is ",req.user);
+        const bookings = await Booking.add(req.user, req.body);
         res.json({ message: "Successfully Added" });
     } catch (err) {
         logger.error(err);

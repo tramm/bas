@@ -9,7 +9,8 @@ const { Schema } = mongoose;
 /* const ServiceCategory = require('./ServiceCategory');*/
 const Partner = require('./Partner');
 const Offer = require('./Offer');
-const Vehicle = require('./Vehicle');
+//const Vehicle = require('./Vehicle');
+const User = require('./User');
 
 
 const mongoSchema = new Schema({
@@ -17,6 +18,9 @@ const mongoSchema = new Schema({
     type: String,
     required: true,
   },
+  vehicle:{
+    type: Object,
+  }, 
   offer: {
     type: Schema.ObjectId, 
     ref: 'Offer'
@@ -25,15 +29,15 @@ const mongoSchema = new Schema({
     type: Schema.ObjectId, 
     ref: 'Partner'
   },
-  vehicle: {
+  user: {
     type: Schema.ObjectId, 
-    ref: 'Vehicle'
+    ref: 'User'
   }
 });
 
 class BookingClass {
   static async list({ offset = 0, limit = 10 } = {}) {
-    var populateBookingQuery = [{path:'vehicle'}, {path:'offer'}, {path:'partner'}];
+    var populateBookingQuery = [{path:'user'}, {path:'offer'}, {path:'partner'}];
     const bookings = await this.find({})
       .populate(populateBookingQuery)
       .sort({ active: -1 })
@@ -41,18 +45,21 @@ class BookingClass {
       .limit(limit);
     return { "url":STATIC_HOST,"bookings":bookings };
   }
-  static async add({dateOfService, offers_id, partner_id, vehicle_id}) {
+  static async add(loginUser, {dateOfService, offers_id, partner_id, vehicle_id}) {
     console.log("the offer is "+offers_id);
-    console.log("the user is "+partner_id);
-    /* console.log("the category is "+category_id); */
-    console.log("the vehicle is "+vehicle_id);
-    const vehicle =  await Vehicle.findById(vehicle_id);
+    console.log("the partner is "+partner_id);
+    console.log("the user id is "+loginUser._id);
+    console.log("the vehicle id is "+vehicle_id);
+    const user =  await User.findOne({"_id": loginUser._id,"vehicle._id": vehicle_id});
+    const vehicle = user.vehicle.find(veh => veh._id == vehicle_id);
+    console.log("the vehicle is "+vehicle);
     const partner = await Partner.findById(partner_id);
     const offer = await Offer.findById(offers_id);
     /* const category = await ServiceCategory.findById(category_id); */
-    console.log(vehicle);
+    //console.log(vehicle);
     console.log(partner);
     console.log(offer);
+    console.log(user);
     /* console.log(category); */
     let book =  this.create({
       dateOfService,
