@@ -41,6 +41,19 @@ class ServiceCategoryClass {
             createdAt: new Date()
         });
     }
+
+    static async update(id, req) {
+        const updCategories = await this.findByIdAndUpdate(id, {$set: req});
+        console.log(updCategories);
+        return updCategories;
+      }
+    
+    static async delete(id) {
+        const delCategories = await this.findByIdAndRemove(id);
+        console.log(delCategories);
+        return delCategories;
+      }
+    
 }
 mongoSchema.loadClass(ServiceCategoryClass);
 
