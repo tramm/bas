@@ -7,12 +7,16 @@ const vehicleBrandSchema = new Schema({
     name: {
       type: String,  
       unique: true
+    },
+    active: {
+        type: Boolean,
+        default: true
     }
   });
 
   class VehicleBrandClass{
     static async list() {
-        const brands = await this.find({})
+        const brands = await this.find({"active": true})
             .sort({ createdAt: -1 });
         return { brands };
     }

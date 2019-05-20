@@ -9,6 +9,10 @@ const vehicleModelSchema = new Schema({
     name: {
       type: String,  
     },
+    active: {
+      type: Boolean,
+      default: true
+    },
     brand: {
         type: Schema.ObjectId, 
         ref: 'VehicleBrand'
@@ -17,7 +21,7 @@ const vehicleModelSchema = new Schema({
 
   class VehicleModelClass{
     static async list() {
-        const models = await this.find({})
+        const models = await this.find({"active":true})
             .sort({ createdAt: -1 });
         return { models };
     }

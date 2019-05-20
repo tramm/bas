@@ -33,12 +33,16 @@ const mongoSchema = new Schema({
   serviceCenter_Name: {
     type: String,
   },
+  active: {
+    type: Boolean,
+    default: true,
+  }, 
   category: [{ type: Schema.ObjectId, ref: 'ServiceCategory', required: true }]
 });
 
 class OfferClass {
   static async list({ offset = 0, limit = 10 } = {}) {
-    const offers = await this.find({})
+    const offers = await this.find({"active": true})
       .sort({ createdAt: -1 })
       .skip(offset)
       .limit(limit);
@@ -74,7 +78,9 @@ class OfferClass {
   }
 
   static async delete(id) {
-    const delOffer = await this.findByIdAndRemove(id);
+    console.log("The offer id is ",id);
+    const delOffer = await this.findOneAndUpdate({"_id": id}, {"$set": {"active": false}}, {new: true});
+    //const delOffer = await this.findByIdAndRemove(id);
     console.log(delOffer);
     return delOffer;
   }

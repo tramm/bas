@@ -29,9 +29,9 @@ router.use((req, res, next) => {
 });
 
 
-router.get('/bookings', async (req, res) => {
+router.post('/bookings', async (req, res) => {
     try {
-        const bookings = await Booking.list();
+        const bookings = await Booking.list(req.body);
         res.json(bookings);
     } catch (err) {
         res.json({ error: err.message || err.toString() });
