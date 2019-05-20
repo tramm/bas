@@ -21,7 +21,7 @@
             android:gravity="center|start"
             android:padding="10dp"
             android:text="Best Deals"
-            android:textColor="@color/grey_33"
+            android:textColor="@color/onyx"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -42,7 +42,7 @@
             android:gravity="center|start"
             android:padding="10dp"
             android:text="Categories"
-            android:textColor="@color/grey_33"
+            android:textColor="@color/onyx"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -63,7 +63,7 @@
             android:gravity="center|start"
             android:padding="10dp"
             android:text="Discounts for you"
-            android:textColor="@color/grey_33"
+            android:textColor="@color/onyx"
             android:textSize="18sp"
             android:textStyle="bold" />
 

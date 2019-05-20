@@ -3,10 +3,13 @@ package com.bookservice.ui.activity.login.signin;
 import android.app.Activity;
 import android.text.TextUtils;
 
+import com.bookservice.data.model.login.LoginResponse;
+import com.bookservice.data.model.verify.VerifyResponse;
 import com.bookservice.network.AsyncTaskConnection;
 import com.bookservice.network.IConnectionListener;
 import com.bookservice.network.Result;
 import com.bookservice.utils.ConnectionUtils;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,16 +49,26 @@ public class SignInPresenter implements ISignInPresenter {
                 AsyncTaskConnection asyncTaskConnection = new AsyncTaskConnection(VERIFY, activity, json, POST, new IConnectionListener() {
                     @Override
                     public void onSuccess(Result result) {
-                        view.onSuccess(result.getResponse());
+                        JSONObject jsonObject;
+                        try {
+                            jsonObject = new JSONObject(result.getResponse());
+                            Gson gson = new Gson();
+                            VerifyResponse verifyResponse = gson.fromJson(jsonObject.toString(), VerifyResponse.class);
+                            view.onSuccess(verifyResponse);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                     }
 
                     @Override
                     public void onFail(Result result) {
-                        if (result.getStatusCode() == BAD_AUTHENTICATION) {
-                            view.onBadAuthenticate("Mobile Number not registered, please register");
-                        } else {
-                            view.onError("Something went wrong, Please try after sometime");
-                        }
+                        view.onError("Something went wrong, Please try after sometime");
+                    }
+
+                    @Override
+                    public void onNetworkFail(String message) {
+                        view.onError(message);
                     }
                 });
                 asyncTaskConnection.execute();
@@ -74,7 +87,7 @@ public class SignInPresenter implements ISignInPresenter {
             view.onError("Invalid Mobile Number, please enter 10 digit mobile number");
         } else if (TextUtils.isEmpty(strPin)) {
             view.onError("Pin field cannot be empty");
-        } else if (strPin.length() > 3) {
+        } else if (strPin.length() < 3) {
             view.onError("Pin should be more than 3 characters");
         } else {
             if (ConnectionUtils.isConnectedNetwork(activity)) {
@@ -91,7 +104,18 @@ public class SignInPresenter implements ISignInPresenter {
                 AsyncTaskConnection asyncTaskConnection = new AsyncTaskConnection(LOGIN, activity, json, POST, new IConnectionListener() {
                     @Override
                     public void onSuccess(Result result) {
-                        view.onSuccess(result.getResponse());
+
+                        JSONObject jsonObject;
+                        try {
+                            jsonObject = new JSONObject(result.getResponse());
+                            Gson gson = new Gson();
+                            LoginResponse loginResponse = gson.fromJson(jsonObject.toString(), LoginResponse.class);
+                            view.onSuccessLogin(loginResponse);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
                     }
 
                     @Override
@@ -101,6 +125,11 @@ public class SignInPresenter implements ISignInPresenter {
                         } else {
                             view.onError("Something went wrong, Please try after sometime");
                         }
+                    }
+
+                    @Override
+                    public void onNetworkFail(String message) {
+                        view.onError(message);
                     }
                 });
                 asyncTaskConnection.execute();

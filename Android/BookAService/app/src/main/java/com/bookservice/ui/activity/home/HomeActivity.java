@@ -2,20 +2,17 @@ package com.bookservice.ui.activity.home;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.view.Menu;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
@@ -26,14 +23,12 @@ import com.bookservice.data.model.category.Category;
 import com.bookservice.data.model.category.CategoryResponse;
 import com.bookservice.data.model.offers.GetOffersResponse;
 import com.bookservice.data.model.offers.Offer;
-import com.bookservice.preference.BsPreference;
+import com.bookservice.ui.activity.bookings.BookingHistoryActivity;
 import com.bookservice.ui.activity.user.UserDetailActivity;
 import com.bookservice.ui.activity.vehicle.VehicleDetailActivity;
 import com.bookservice.ui.base.BsBaseActivity;
-import com.bookservice.data.pojos.SingleVertical;
 import com.bookservice.utils.view.BsToast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -87,7 +82,6 @@ public class HomeActivity extends BsBaseActivity
         presenter.getCategories(activity);
 
 
-
     }
 
     @Override
@@ -95,7 +89,7 @@ public class HomeActivity extends BsBaseActivity
         final String url = getOffersResponse.getUrl();
         final List<Offer> offers = getOffersResponse.getOffers();
 
-        BestDealsAdapter adapter = new BestDealsAdapter(offers,url, this);
+        BestDealsAdapter adapter = new BestDealsAdapter(offers, url, this);
         rvBestDeals.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         rvBestDeals.setAdapter(adapter);
 
@@ -106,10 +100,12 @@ public class HomeActivity extends BsBaseActivity
     @Override
     public void onSuccessCategory(CategoryResponse categoryResponse) {
         final List<Category> categories = categoryResponse.getCategories();
+        final String url = categoryResponse.getUrl();
+
         GridLayoutManager gridLayoutManagerCategories = new GridLayoutManager(this, 2);
         rvCategories.setHasFixedSize(true);
         rvCategories.setLayoutManager(gridLayoutManagerCategories);
-        CategoryAdapter categoryAdapter = new CategoryAdapter(this, categories);
+        CategoryAdapter categoryAdapter = new CategoryAdapter(this, categories, url);
         rvCategories.setAdapter(categoryAdapter);
     }
 
@@ -118,15 +114,6 @@ public class HomeActivity extends BsBaseActivity
         BsToast.showLong(activity, result);
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -134,20 +121,17 @@ public class HomeActivity extends BsBaseActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.home) {
-
-        } else if (id == R.id.offers) {
-
-        } else if (id == R.id.account) {
+        if (id == R.id.account) {
             Intent intent = new Intent(this, UserDetailActivity.class);
             startActivity(intent);
         } else if (id == R.id.vehicle) {
             Intent intent = new Intent(this, VehicleDetailActivity.class);
             startActivity(intent);
-        } else if (id == R.id.orders) {
-
+        } else if (id == R.id.bookings) {
+            Intent intent = new Intent(this, BookingHistoryActivity.class);
+            startActivity(intent);
         } else if (id == R.id.logout) {
-
+            logOutDialog(activity);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -155,11 +139,15 @@ public class HomeActivity extends BsBaseActivity
         return true;
     }
 
-    /*private void applyFontToMenuItem(MenuItem mi) {
-        Typeface font = Typeface.createFromAsset(getAssets(), "fonts/avenirLTStd-Light.otf");
-        SpannableString mNewTitle = new SpannableString(mi.getTitle());
-        mNewTitle.setSpan(new CustomTypefaceSpan("", font), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        mi.setTitle(mNewTitle);
-    }*/
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            logOutDialog(activity);
+        }
+    }
+
 
 }

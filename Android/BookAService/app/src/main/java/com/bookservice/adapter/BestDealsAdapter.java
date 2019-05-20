@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
+import android.widget.TextView;
 
 import com.bookservice.R;
 import com.bookservice.data.model.offers.Offer;
@@ -19,6 +19,9 @@ import java.util.List;
 
 import static com.bookservice.constants.Constants.EXTRA_DESCRIPTION;
 import static com.bookservice.constants.Constants.EXTRA_NAME;
+import static com.bookservice.constants.Constants.EXTRA_OFFER_ID;
+import static com.bookservice.constants.Constants.EXTRA_SERVICE_CENTER_ID;
+import static com.bookservice.constants.Constants.EXTRA_SERVICE_CENTER_NAME;
 
 
 public class BestDealsAdapter extends RecyclerView.Adapter<BestDealsAdapter.MyViewHolder> {
@@ -42,16 +45,20 @@ public class BestDealsAdapter extends RecyclerView.Adapter<BestDealsAdapter.MyVi
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
 
-        ImageLoad.loadImage(mUrl + data.get(position).getUrl(), holder.image);
+        ImageLoad.loadImageDeals(mUrl + data.get(position).getUrl(), holder.image);
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, OfferDetailActivity.class);
                 intent.putExtra(EXTRA_NAME, data.get(position).getName());
                 intent.putExtra(EXTRA_DESCRIPTION, data.get(position).getDescription());
+                intent.putExtra(EXTRA_SERVICE_CENTER_ID, data.get(position).getServiceCenterId());
+                intent.putExtra(EXTRA_SERVICE_CENTER_NAME, data.get(position).getServiceCenterName());
+                intent.putExtra(EXTRA_OFFER_ID, data.get(position).getId());
                 context.startActivity(intent);
             }
         });
+        holder.title.setText(data.get(position).getDescription());
     }
 
     @Override
@@ -61,10 +68,12 @@ public class BestDealsAdapter extends RecyclerView.Adapter<BestDealsAdapter.MyVi
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
+        TextView title;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             image = (ImageView) itemView.findViewById(R.id.image_view);
+            title = (TextView) itemView.findViewById(R.id.title);
         }
     }
 }

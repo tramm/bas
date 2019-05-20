@@ -22,9 +22,9 @@
         android:padding="10dp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/thumbgreen" />
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:src="@drawable/booking" />
 
         <com.bookservice.utils.view.BsTextViewMedium
             android:layout_width="match_parent"
@@ -42,7 +42,7 @@
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:padding="5dp"
-            android:text="We have sent you email and sms, Telecaller will contact you shortly!"
+            android:text="You have successfully completed booking, We have sent you email and sms, Telecaller will contact you shortly!"
             android:textColor="@color/grey_33"
             android:textSize="16sp" />
 
@@ -61,7 +61,7 @@
             android:layout_height="match_parent"
             android:layout_weight="0.8"
             android:gravity="center"
-            android:text="CONTINUE SHOPPING"
+            android:text="BACK TO HOME"
             android:textColor="@color/ice" />
 
         <ImageView

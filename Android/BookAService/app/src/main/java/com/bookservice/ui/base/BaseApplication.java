@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.bookservice.R;
 import com.bookservice.preference.BsPreference;
+import com.splunk.mint.Mint;
 import com.squareup.otto.Bus;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
@@ -18,6 +19,7 @@ public class BaseApplication extends Application {
         super.onCreate();
         BsPreference.startWith(getApplicationContext());
         initCalligraphy();
+        Mint.initAndStartSession(this, "ed5c6c0b");
     }
 
     private void initCalligraphy() {

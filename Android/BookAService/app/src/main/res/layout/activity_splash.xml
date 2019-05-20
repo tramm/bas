@@ -95,6 +95,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.8"
                     android:gravity="center"
+                    android:textSize="15sp"
                     android:text="GET STARTED"
                     android:textColor="@color/ice" />
 

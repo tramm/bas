@@ -4,11 +4,11 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-        <item
+       <!-- <item
             android:id="@+id/home"
             android:checked="true"
             android:icon="@drawable/home"
-            android:title="Home" />
+            android:title="Home" />-->
         <item
             android:id="@+id/account"
             android:icon="@drawable/ic_account"
@@ -18,14 +18,9 @@
             android:icon="@drawable/cars"
             android:title="My Vehicle" />
         <item
-            android:id="@+id/orders"
+            android:id="@+id/bookings"
             android:icon="@drawable/order"
-            android:title="My Orders" />
-        <item
-            android:id="@+id/offers"
-            android:icon="@drawable/ic_offer"
-            android:title="Offers Zone" />
-
+            android:title="My Bookings" />
         <item
             android:id="@+id/logout"
             android:icon="@drawable/logout"
