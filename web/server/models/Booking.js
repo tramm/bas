@@ -64,7 +64,7 @@ const mongoSchema = new Schema({
 
 class BookingClass {
   static async list({ offset = 0, limit = 10 } = {}) {
-    var populateBookingQuery = [{path:'vehicle.model'},{path:'vehicle.manufacturer'}, {path:'offer'}, {path:'muser'}];
+    var populateBookingQuery = [{path:'vehicle.model'},{path:'vehicle.manufacturer'}, {path:'offer'}, {path:'partner'}];
     const bookings = await this.find({"active": true})
       .populate(populateBookingQuery)
       .sort({ active: -1 })
