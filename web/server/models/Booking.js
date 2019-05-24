@@ -12,6 +12,35 @@ const Offer = require('./Offer');
 //const Vehicle = require('./Vehicle');
 const User = require('./User');
 
+const vehicleSchema = new Schema({
+  color: {
+      type: String,
+  },
+  variant: {
+      type: String,
+  },
+  registration_Number: {
+      type: String,
+  },
+  tag: {
+      type: String,
+  },
+  year: {
+      type: Number,
+  },
+  active: {
+      type: Boolean,
+      default: true,
+  },
+  manufacturer: {
+      type: Schema.ObjectId,
+      ref: 'VehicleBrand'
+  },
+  model: {
+      type: Schema.ObjectId,
+      ref: 'VehicleModel'
+  }
+});
 
 const mongoSchema = new Schema({
   dateOfService: {
@@ -30,28 +59,17 @@ const mongoSchema = new Schema({
     type: Schema.ObjectId, 
     ref: 'Partner'
   },
-  user: {
-    type: Schema.ObjectId, 
-    ref: 'User'
-  }
+  vehicle: [vehicleSchema]
 });
 
 class BookingClass {
-  static async list({vehicleId},{ offset = 0, limit = 10 } = {}) {
-    var populateBookingQuery = [{path:'user', populate:[{path: 'vehicle.model'}, {path: 'vehicle.manufacturer'}]}, {path:'offer'}, {path:'partner'}];
+  static async list({ offset = 0, limit = 10 } = {}) {
+    var populateBookingQuery = [{path:'vehicle.model'},{path:'vehicle.manufacturer'}, {path:'offer'}, {path:'muser'}];
     const bookings = await this.find({"active": true})
       .populate(populateBookingQuery)
       .sort({ active: -1 })
       .skip(offset)
       .limit(limit);
-      const vehicle = bookings[0].user.vehicle;
-      const bookedVehicle = vehicle.filter(obj =>{
-        return obj._id == vehicleId
-      })
-      console.log("The Booked vehicle is ",bookedVehicle);
-      bookings[0].user.vehicle = [];
-      bookings[0].user.vehicle.push(bookedVehicle[0]);
-      console.log("The booking list is ",bookings);
     return { "url":STATIC_HOST,"bookings":bookings };
   }
   static async add(loginUser, {dateOfService, offers_id, partner_id, vehicle_id}) {
@@ -59,17 +77,15 @@ class BookingClass {
     console.log("the partner is "+partner_id);
     console.log("the user id is "+loginUser._id);
     console.log("the vehicle id is "+vehicle_id);
-    const user =  await User.findOne({"_id": loginUser._id,"vehicle._id": vehicle_id});
-   // const vehicle = user.vehicle.find(veh => veh._id == vehicle_id);
-   // console.log("the vehicle is "+vehicle);
+    const user =  await User.findById(loginUser._id);
+    const vehicle = user.vehicle.find(veh => veh._id == vehicle_id);
     const partner = await Partner.findById(partner_id);
     const offer = await Offer.findById(offers_id);
     console.log(partner);
     console.log(offer);
-    console.log(user);
     let book =  this.create({
       dateOfService,
-      user,
+      vehicle,
       partner,
       offer,
     });
