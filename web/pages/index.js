@@ -7,6 +7,7 @@ import Head from 'next/head';
 import withAuth from '../lib/withAuth';
 import withLayout from '../lib/withLayout';
 import dynamic from 'next/dynamic'
+import Link from 'next/link'
 const Dashboard = dynamic(import('../components/dashboard'), { ssr: false })
 //import Dashboard from '../components/dashboard';
 
@@ -30,11 +31,14 @@ class Index extends React.Component {
           <meta name="description" content="description for indexing bots" />
         </Head>
         <p> Dashboard </p>
+        <Link href="/about">
+           <a>About Page</a>
+        </Link>
         <Dashboard {...this.props} />
-        <p>Email: {user.email}</p>
+        {/* <p>Email: {user.email}</p> */}
       </div>
     );
   }
 }
 
-export default withAuth(withLayout(Index));
+export default withLayout(Index);
