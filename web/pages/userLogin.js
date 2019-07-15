@@ -13,6 +13,8 @@ import {
 import classnames from "classnames";
 import { getLoginCreds } from '../lib/api/admin';
 import Router from 'next/router';
+import { login } from '../lib/store';
+import { connect } from 'react-redux';
 
 class Login extends React.Component {
 
@@ -60,8 +62,10 @@ class Login extends React.Component {
             console.log("The result is ", data.error);
             if (data.error === undefined || data.error === null || data.error === "") {
                 console.log("Correct input");
-                this.setState({ error: "" });
-                Router.push('/about');
+                console.log("Data", data);
+                console.log("Props in user login", this.props);
+                this.props.login(data);
+                Router.push('/');
             } else {
                 console.log("Wrong input", this.props.errorValue);
                 this.setState({ error: "Email/Password incorrect" });
@@ -90,28 +94,10 @@ class Login extends React.Component {
                             textColor="primary"
                             centered
                         >
-                            <Tab label="Login" classes={{ root: classes.tab }} />
-                            <Tab label="New User" classes={{ root: classes.tab }} />
+                            <Tab label="Welcome" classes={{ root: classes.tab }} />
                         </Tabs>
                         {props.activeTabId === 0 && (
                             <React.Fragment>
-                                <Typography variant="h1" className={classes.greeting}>
-                                    Good Morning, User
-            </Typography>
-                                {/* <Button size="large" className={classes.googleButton}>
-                                    <img src="./static/google.svg" alt="google" className={classes.googleIcon} />
-                                    &nbsp;Sign in with Google
-            </Button>
-                                <div className={classes.formDividerContainer}>
-                                    <div className={classes.formDivider} />
-                                    <Typography className={classes.formDividerWord}>or</Typography>
-                                    <div className={classes.formDivider} />
-                                </div>
-                                <Fade in={props.error}>
-                                    <Typography color="secondary" className={classes.errorMessage}>
-                                        Something is wrong with your login or password :(
-              </Typography>
-                                </Fade> */}
                                 <TextField
                                     id="mobile"
                                     InputProps={{
@@ -158,7 +144,7 @@ class Login extends React.Component {
                                                 size="large"
                                             >
                                                 Login
-                </Button>
+                                        </Button>
                                         )}
                                     <Button
                                         color="primary"
@@ -166,111 +152,14 @@ class Login extends React.Component {
                                         className={classes.forgetButton}
                                     >
                                         Forget Password
-              </Button>
+                                    </Button>
                                 </div>
-                            </React.Fragment>
-                        )}
-                        {props.activeTabId === 1 && (
-                            <React.Fragment>
-                                <Typography variant="h1" className={classes.greeting}>
-                                    Welcome!
-            </Typography>
-                                <Typography variant="h2" className={classes.subGreeting}>
-                                    Create your account
-            </Typography>
-                                <Fade in={props.error}>
-                                    <Typography color="secondary" className={classes.errorMessage}>
-                                        Something is wrong with your login or password :(
-              </Typography>
-                                </Fade>
-                                <TextField
-                                    id="name"
-                                    InputProps={{
-                                        classes: {
-                                            underline: classes.textFieldUnderline,
-                                            input: classes.textField
-                                        }
-                                    }}
-                                    value={props.nameValue}
-                                    onChange={e => props.handleInput(e, "name")}
-                                    margin="normal"
-                                    placeholder="Full Name"
-                                    type="email"
-                                    fullWidth
-                                />
-                                <TextField
-                                    id="email"
-                                    InputProps={{
-                                        classes: {
-                                            underline: classes.textFieldUnderline,
-                                            input: classes.textField
-                                        }
-                                    }}
-                                    value={props.loginValue}
-                                    onChange={e => props.handleInput(e, "login")}
-                                    margin="normal"
-                                    placeholder="Email Adress"
-                                    type="email"
-                                    fullWidth
-                                />
-                                <TextField
-                                    id="password"
-                                    InputProps={{
-                                        classes: {
-                                            underline: classes.textFieldUnderline,
-                                            input: classes.textField
-                                        }
-                                    }}
-                                    value={props.passwordValue}
-                                    onChange={e => props.handleInput(e, "password")}
-                                    margin="normal"
-                                    placeholder="Password"
-                                    type="password"
-                                    fullWidth
-                                />
-                                <div className={classes.errorMessage}>{props.errorValue}</div>
-                                <div className={classes.creatingButtonContainer}>
-                                    {props.isLoading ? (
-                                        <CircularProgress size={26} />
-                                    ) : (
-                                            <Button
-                                                onClick={props.handleLoginButtonClick}
-                                                disabled={
-                                                    props.loginValue.length === 0 ||
-                                                    props.passwordValue.length === 0 ||
-                                                    props.nameValue.length === 0
-                                                }
-                                                size="large"
-                                                variant="contained"
-                                                color="primary"
-                                                fullWidth
-                                                className={classes.createAccountButton}
-                                            >
-                                                Create your account
-                </Button>
-                                        )}
-                                </div>
-                                <div className={classes.formDividerContainer}>
-                                    <div className={classes.formDivider} />
-                                    <Typography className={classes.formDividerWord}>or</Typography>
-                                    <div className={classes.formDivider} />
-                                </div>
-                                <Button
-                                    size="large"
-                                    className={classnames(
-                                        classes.googleButton,
-                                        classes.googleButtonCreating
-                                    )}
-                                >
-                                    {/* <img src={google} alt="google" className={classes.googleIcon} /> */}
-                                    &nbsp;Sign in with Google
-            </Button>
                             </React.Fragment>
                         )}
                     </div>
                     <Typography color="primary" className={classes.copyright}>
                         © Copyright  2018-2019 , TurnRight Private Ltd.
-      </Typography>
+                    </Typography>
                 </div>
             </Grid>
         )
@@ -427,4 +316,13 @@ const styles = theme => ({
         }
     }
 });
-export default withStyles(styles, { withTheme: true })(Login);
+const mapStateToProps = state => {
+    //const {app_state} = state;     
+    console.log("state in mapping", state);
+    return { user: state.user };
+}
+const mapDispatchToProps = { login }
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withStyles(styles, { withTheme: true })(Login));
