@@ -52,21 +52,6 @@ class Tables extends React.Component {
     } catch (err) {
       console.log(err); // eslint-disable-line
     }
-    // const url = "http://localhost:8000/api/v1/user/partners";
-    // fetch(url,{
-    //     method: 'GET',
-    //     withCredentials: true,
-    //     credentials: 'include',
-    //     headers: {
-    //         'Authorization': 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVjZGQxZmZmNTE1ZWY3MzZmYzYxZjllYiIsImlhdCI6MTU1Nzk5NTUxOX0.9EBSn_O6Thy6FlExMMXBGf4sfnMKKntTY-VYc1okYBQ',
-    //         'X-FP-API-KEY': 'iphone', //it can be iPhone or your any other attribute
-    //         'Content-Type': 'application/json'
-    //     }
-    // }).then(res => res.json())
-    //   .then((data) => {
-    //     console.log("The result is ",data);
-    //     this.setState({ partners: data.partners })
-    //   })
   }
 
   render() {
