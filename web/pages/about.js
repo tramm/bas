@@ -4,30 +4,11 @@ import MUIDataTable from "mui-datatables";
 import PropTypes from 'prop-types';
 //import Partners from '../lib/api/about';
 import { getPartners } from '../lib/api/admin';
+import { getTodayBookings } from '../lib/api/admin';
 //import PageTitle from '../../components/PageTitle';
 //import Widget from '../../components/Widget';
 //import Table from '../dashboard/components/Table/Table';
 //import mock from '../dashboard/mock'; 
-
-const datatableData = [
-  ["Joe James", "Example Inc.", "Yonkers", "NY"],
-  ["John Walsh", "Example Inc.", "Hartford", "CT"],
-  ["Bob Herm", "Example Inc.", "Tampa", "FL"],
-  ["James Houston", "Example Inc.", "Dallas", "TX"],
-  ["Prabhakar Linwood", "Example Inc.", "Hartford", "CT"],
-  ["Kaui Ignace", "Example Inc.", "Yonkers", "NY"],
-  ["Esperanza Susanne", "Example Inc.", "Hartford", "CT"],
-  ["Christian Birgitte", "Example Inc.", "Tampa", "FL"],
-  ["Meral Elias", "Example Inc.", "Hartford", "CT"],
-  ["Deep Pau", "Example Inc.", "Yonkers", "NY"],
-  ["Sebastiana Hani", "Example Inc.", "Dallas", "TX"],
-  ["Marciano Oihana", "Example Inc.", "Yonkers", "NY"],
-  ["Brigid Ankur", "Example Inc.", "Dallas", "TX"],
-  ["Anna Siranush", "Example Inc.", "Yonkers", "NY"],
-  ["Avram Sylva", "Example Inc.", "Hartford", "CT"],
-  ["Serafima Babatunde", "Example Inc.", "Tampa", "FL"],
-  ["Gaston Festus", "Example Inc.", "Tampa", "FL"],
-];
 
 class Tables extends React.Component {
 
@@ -35,7 +16,8 @@ class Tables extends React.Component {
     super(props);
 
     this.state = {
-      partners: []
+      partners: [],
+      bookings: []
     };
   }
 
@@ -43,12 +25,24 @@ class Tables extends React.Component {
     try {
       const resp = await getPartners();
       console.log("The data from admin js", resp.partners);
-      const partnerArray  = resp.partners.map((partner) => {
-        console.log("Partner NAme",partner.name);
-       return [partner.name,partner.mobile,partner.email,partner.tag]
+      const partnerArray = resp.partners.map((partner) => {
+        console.log("Partner NAme", partner.name);
+        return [partner.name, partner.mobile, partner.email, partner.tag]
       });
       console.log("The data -partner", partnerArray);
       this.setState({ partners: partnerArray }); // eslint-disable-line
+    } catch (err) {
+      console.log(err); // eslint-disable-line
+    }
+    try {
+      const resp = await getTodayBookings();
+      console.log("The data from admin js", resp.bookings);
+      const bookingsArray = resp.bookings.map((booking) => {
+        console.log("customer Name", booking.partner.name);
+        return [booking.partner.name, booking.vehicle[0].manufacturer.name, booking.vehicle[0].registration_Number, booking.offer.serviceCenter_Name, booking.dateOfService]
+      });
+      console.log("The bookings data is ", bookingsArray);
+      this.setState({ bookings: bookingsArray }); // eslint-disable-line
     } catch (err) {
       console.log(err); // eslint-disable-line
     }
@@ -61,11 +55,23 @@ class Tables extends React.Component {
         <Grid container spacing={32}>
           <Grid item xs={12}>
             <MUIDataTable
-              title="Partner List"
-              data=  {this.state.partners}
-              columns={["Name", "Mobile", "Email", "Tag"]}
+              title="Booking Requests"
+              data={this.state.bookings}
+              columns={["Customer Name", "Vehicle", "Reg Number", "service center", "Request Date"]}
               options={{
                 filterType: 'checkbox',
+                search: false,
+                print: false,
+                download: true,
+                selectableRows: false,
+                rowsPerPage: 10,
+                filter: false,
+                filterType: 'dropdown',
+                responsive: 'stacked',
+                page: 0,
+                onColumnSortChange: (changedColumn, direction) => console.log('changedColumn: ', changedColumn, 'direction: ', direction),
+                onChangeRowsPerPage: numberOfRows => console.log('numberOfRows: ', numberOfRows),
+                onChangePage: currentPage => console.log('currentPage: ', currentPage)
               }}
             />
           </Grid>

@@ -22,7 +22,7 @@ class Login extends React.Component {
         this.state = {
             mobile: '',
             pin: '',
-            error:''
+            error: ''
         };
         this.handleMobileChange = this.handleMobileChange.bind(this);
         this.handlePinChange = this.handlePinChange.bind(this);
@@ -57,20 +57,20 @@ class Login extends React.Component {
         console.log("Inside checkForLoginUser");
         try {
             const data = await getLoginCreds(this.state);
-            console.log("The result is ",data.error);
-            if(data.error === undefined || data.error === null || data.error === ""){
+            console.log("The result is ", data.error);
+            if (data.error === undefined || data.error === null || data.error === "") {
                 console.log("Correct input");
-                this.setState({error : "" });
+                this.setState({ error: "" });
                 Router.push('/about');
-            }else{
-                console.log("Wrong input",this.props.errorValue);
-                this.setState({error : "Email/Password incorrect" });
+            } else {
+                console.log("Wrong input", this.props.errorValue);
+                this.setState({ error: "Email/Password incorrect" });
             }
         } catch (err) {
             console.log(err); // eslint-disable-line
         }
     }
-    
+
     render() {
         const { classes } = this.props;
         const props = this.props;
@@ -78,7 +78,7 @@ class Login extends React.Component {
         return (
             <Grid container className={classes.container}>
                 <div className={classes.logotypeContainer}>
-                    <img src="/static/crick1.png" alt="logo" className={classes.logotypeImage} /> 
+                    <img src="/static/crick1.png" alt="logo" className={classes.logotypeImage} />
                     <Typography className={classes.logotypeText}>BOOK A SERVICE</Typography>
                 </div>
                 <div className={classes.formContainer}>
@@ -98,8 +98,8 @@ class Login extends React.Component {
                                 <Typography variant="h1" className={classes.greeting}>
                                     Good Morning, User
             </Typography>
-                                <Button size="large" className={classes.googleButton}>
-                                    <img src="./static/google.svg" alt="google" className={classes.googleIcon} /> 
+                                {/* <Button size="large" className={classes.googleButton}>
+                                    <img src="./static/google.svg" alt="google" className={classes.googleIcon} />
                                     &nbsp;Sign in with Google
             </Button>
                                 <div className={classes.formDividerContainer}>
@@ -111,7 +111,7 @@ class Login extends React.Component {
                                     <Typography color="secondary" className={classes.errorMessage}>
                                         Something is wrong with your login or password :(
               </Typography>
-                                </Fade>
+                                </Fade> */}
                                 <TextField
                                     id="mobile"
                                     InputProps={{
