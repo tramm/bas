@@ -38,6 +38,15 @@ router.get('/bookings', async (req, res) => {
     }
 });
 
+router.get('/bookingsToday', async (req, res) => {
+    try {
+        const bookings = await Booking.todayBookingslist();
+        res.json(bookings);
+    } catch (err) {
+        res.json({ error: err.message || err.toString() });
+    }
+});
+
 router.post('/bookings/add', async (req, res) => {
     try {
         console.log("The user is ",req.user);

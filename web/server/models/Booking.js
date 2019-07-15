@@ -106,6 +106,29 @@ class BookingClass {
     return delBooking;
   }
 
+  static async todayBookingslist({ offset = 0, limit = 10 } = {}) {
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1; //January is 0!
+
+    let yy = today.getFullYear().toString().substr(-2);
+    if (dd < 10) {
+      dd = '0' + dd;
+    }
+    if (mm < 10) {
+      mm = '0' + mm;
+    }
+    today = dd + '/' + mm + '/' + yy;
+    console.log("Todays date is ", today);
+    var populateBookingQuery = [{ path: 'vehicle.model' }, { path: 'vehicle.manufacturer' }, { path: 'offer' }, { path: 'partner' }];
+    const bookings = await this.find({ "active": true, "dateOfService": today })
+      .populate(populateBookingQuery)
+      .sort({ active: -1 })
+      .skip(offset)
+      .limit(limit);
+    return { "url": STATIC_HOST, "bookings": bookings };
+  }
+
 }
 mongoSchema.loadClass(BookingClass);
 
