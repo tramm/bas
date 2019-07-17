@@ -16,7 +16,7 @@ const MONGO_URL = process.env.MONGO_URL_TEST;
 mongoose.connect(MONGO_URL, { useNewUrlParser: true });
 
 const port = process.env.PORT || 8000;
-const ROOT_URL = dev ? `http://localhost:${port}` : 'http://bas.turnright.tech';
+const ROOT_URL = dev ? `http://localhost:${port}` : process.env.ROOT_URL;
 
 const sessionSecret = process.env.SESSION_SECRET;
 
