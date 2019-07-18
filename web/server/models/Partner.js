@@ -18,7 +18,7 @@ const mongoSchema = new Schema({
   email: {
     type: String,
   },
-  tag:{
+  tag: {
     type: String,
   },
   is_customer: {
@@ -44,35 +44,53 @@ class PartnerClass {
   // partner's public fields
   static publicFields() {
     return ['name', 'mobile', 'tag', 'email'];
-}
-  static async list({ offset = 0, limit = 10 } = {}) {
-    const partners = await this.find({"active":true})
+  }
+  static async list({ offset = 0, limit } = {}) {
+    const partners = await this.find({ "active": true })
       .select(PartnerClass.publicFields().join(' '))
       .sort({ active: -1 })
       .skip(offset)
       .limit(limit);
-    return { "url":STATIC_HOST,"partners":partners };
+    return { "url": STATIC_HOST, "partners": partners };
   }
-  static async add({ name, mobile, email, tag, is_customer, is_service_center, is_admin}) {
-      return this.create({
-            name,
-            mobile,
-            email,
-            tag,
-            is_customer,
-            is_service_center,
-            is_admin
-        });
+
+  static async userPartners(loginUser, { offset = 0, limit } = {}) {
+    const loginUserPartners = loginUser.partner;
+    const partners = await this.find({ _id: { "$in": loginUserPartners }, "active": true })
+      .select(PartnerClass.publicFields().join(' '))
+      .sort({ active: -1 })
+      .skip(offset)
+      .limit(limit);
+    return { "url": STATIC_HOST, "partners": partners };
+  }
+
+  static async add(loginUser, { name, mobile, email, tag, is_customer, is_service_center, is_admin }) {
+    console.log("The login user for add partner ",loginUser);
+    const  createdPart  = await this.create({
+      name,
+      mobile,
+      email,
+      tag,
+      is_customer,
+      is_service_center,
+      is_admin
+    });
+    console.log("The created partner is ", createdPart );
+    console.log("The created partner id is ",  typeof(createdPart._id) );
+    loginUser.partner.push(createdPart._id);
+    const addUserPartner = await loginUser.save();
+        console.log(addUserPartner);
+    return addUserPartner;
   }
 
   static async update(id, req) {
-    const updPartner = await this.findByIdAndUpdate(id, {$set: req}, {new: true});
+    const updPartner = await this.findByIdAndUpdate(id, { $set: req }, { new: true });
     console.log(updPartner);
     return updPartner;
   }
 
   static async delete(id) {
-    const delPartner = await this.findOneAndUpdate({"_id": id}, {"$set": {"active": false}}, {new: true});
+    const delPartner = await this.findOneAndUpdate({ "_id": id }, { "$set": { "active": false } }, { new: true });
     //const delPartner = await this.findByIdAndRemove(id);
     console.log(delPartner);
     return delPartner;

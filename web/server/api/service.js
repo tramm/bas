@@ -31,7 +31,8 @@ router.use((req, res, next) => {
 
 router.get('/bookings', async (req, res) => {
     try {
-        const bookings = await Booking.list();
+        console.log("The login user for bookings is ",req.user);
+        const bookings = await Booking.userBookings(req.user);
         res.json(bookings);
     } catch (err) {
         res.json({ error: err.message || err.toString() });

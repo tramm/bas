@@ -82,12 +82,12 @@ class UserClass {
             .sort({ createdAt: -1 });
         return { users };
     }
-    static async add({ name, mobile, pin, email, tag, partner_id, vehicle }) {
+    static async add({ name, mobile, pin, email, tag, partner, vehicle }) {
         if (mobile) {
             const user = await this.findOne({ mobile });
             if (user) return user;
-            let partner = await Partner.findById(partner_id);
-            console.log(partner);
+            /* let partner = await Partner.findById(partner_id);
+            console.log(partner); */
             const newUser = await this.create({
                 createdAt: new Date(),
                 name,

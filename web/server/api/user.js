@@ -111,7 +111,7 @@ router.post('/deleteUserVehicle', async (req, res) => {
 
 router.get('/partners', async (req, res) => {
   try {
-    const partners = await Partner.list();
+    const partners = await Partner.userPartners(req.user);
     res.json(partners);
   } catch (err) {
     res.json({ error: err.message || err.toString() });
@@ -120,7 +120,7 @@ router.get('/partners', async (req, res) => {
 
 router.post('/partners/add', async (req, res) => {
   try {
-    const partners = await Partner.add(req.body);
+    const partners = await Partner.add(req.user,req.body);
     res.json({ message: "Successfully Added" });
   } catch (err) {
     logger.error(err);
