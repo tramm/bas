@@ -13,7 +13,7 @@ export const getTodayBookings = () =>
   });
 
 export const getLoginCreds = (userData) =>
-  sendRequest(`/login`, {
+  sendRequest(`/auth`, {
     method: 'POST',
     body: JSON.stringify(userData)
   });

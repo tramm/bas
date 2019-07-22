@@ -11,12 +11,15 @@ export default async function sendRequest(path, opts = {}) {
     `${getRootUrl()}${path}`,
     Object.assign({ method: 'POST', credentials: 'same-origin' }, opts, { headers }),
   );
-
+  console.log("The response object", response);
+  if (response.status && response.status !='200') {
+    throw new Error("Unable to fetch Data");
+  }
   const data = await response.json();
   console.log("The data returned", data);
   if (data.error) {
     return data;
-   // throw new Error(data.error);
+    // throw new Error(data.error);
   }
 
   return data;

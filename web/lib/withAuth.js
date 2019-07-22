@@ -22,17 +22,21 @@ export default (
 
     componentDidMount() {
       const { user, isFromServer } = this.props;
+      console.log("The user in request is :",user);
 
       if (isFromServer) {
         globalUser = user;
       }
 
       if (loginRequired && !logoutRequired && !user) {
-        Router.push('/userLogin', '/login');
+        console.log("The login req and not user is there  :",user);
+
+        Router.push('/login', '/login');
         return;
       }
 
       if (logoutRequired && user) {
+        console.log("The logout required and user is there  :",user);
         Router.push('/');
       }
 
@@ -42,13 +46,14 @@ export default (
     }
 
     static async getInitialProps(ctx) {
+      console.log("The context in with Auth",ctx);
       const isFromServer = !!ctx.req;
       const user = ctx.req ? ctx.req.user && ctx.req.user.toObject() : globalUser;
 
       if (isFromServer && user) {
         user._id = user._id.toString();
       }
-
+      
       const props = { user, isFromServer };
 
       if (Page.getInitialProps) {

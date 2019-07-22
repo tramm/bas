@@ -7,6 +7,10 @@ const Booking = require('../models/Booking');
  
 
 router.use((req, res, next) => {
+  if (!req.user) {
+    res.status(401).json({ error: 'Unauthorized' });
+    return;
+}
   next();
 });
 router.get('/partners', async (req, res) => {

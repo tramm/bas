@@ -6,6 +6,9 @@ const mongoose = require('mongoose');
 const auth = require('./google');
 const auth_pass = require('./passport');
 const api = require('./api');
+const helmet = require('helmet');
+const compression = require('compression');
+
 //const compression = require('compression');
 
 require('dotenv').config();
@@ -15,31 +18,32 @@ const MONGO_URL = process.env.MONGO_URL_TEST;
 
 mongoose.connect(MONGO_URL, { useNewUrlParser: true });
 
-const port = process.env.PORT || 8000;
-const ROOT_URL = dev ? `http://localhost:${port}` : process.env.ROOT_URL;
+const port = process.env.PORT || 8003;
+const ROOT_URL = dev ? `http://localhost:${port}` : `http://localhost:${port}`;
 
 const sessionSecret = process.env.SESSION_SECRET;
-
-const app = next({ dev });
+console.log("Hello env ",dev)
+const app = next({dev});
 const handle = app.getRequestHandler();
 
 // Nextjs's server prepared
 app.prepare().then(() => {
   const server = express();
-  
+  server.use(helmet());
+  server.use(compression());
   server.use(express.json());
 
   // confuring MongoDB session store
   const MongoStore = mongoSessionStore(session);
   const sess = {
-    name: 'builderbook.sid',
+    name: 'bas_web.sid',
     secret: sessionSecret,
     store: new MongoStore({
       mongooseConnection: mongoose.connection,
       ttl: 14 * 24 * 60 * 60, // save session 14 days
     }),
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
       httpOnly: true,
       maxAge: 14 * 24 * 60 * 60 * 1000,
@@ -47,9 +51,9 @@ app.prepare().then(() => {
   };
  
   server.use(session(sess));
-  api(server);
   //auth({ server, ROOT_URL });
   auth_pass({ server});
+  api(server);
 
 
   server.get('*', (req, res) => handle(req, res));

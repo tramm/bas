@@ -34,18 +34,10 @@ class Index extends React.Component {
           <meta name="description" content="description for indexing bots" />
         </Head>
         <p> Bookings </p>
-        <Table {...this.props} />
       </div>
     );
   }
 }
-const mapStateToProps = state =>  {
-  //const {app_state} = state;     
-  console.log("state in mapping",state);
-  return {user:state.user};
-}
-export default connect(
-mapStateToProps,
-null,
-)(withAuth(withLayout(Index)));
+
+export default withAuth(withLayout(Index));
 
