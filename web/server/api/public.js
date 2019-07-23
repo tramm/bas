@@ -4,13 +4,10 @@ const logger = require('../logs');
 const router = express.Router();
 const Partner = require('../models/Partner');
 const Booking = require('../models/Booking');
+const categories = require('../models/ServiceCategory');
  
 
 router.use((req, res, next) => {
-  if (!req.user) {
-    res.status(401).json({ error: 'Unauthorized' });
-    return;
-}
   next();
 });
 router.get('/partners', async (req, res) => {
@@ -31,4 +28,18 @@ router.get('/bookingsToday', async (req, res) => {
         res.json({ error: err.message || err.toString() });
     }
 });
+
+router.post('/services/add', async (req, res) => {
+  try {
+      let val = Object.assign({ userId: 1239 }, req.body);
+      console.log(val);
+      console.log(req);
+      const offer = await categories.add(req.body);
+      res.json(offer);
+  } catch (err) {
+      logger.error(err);
+      res.json({ error: err.message || err.toString() });
+  }
+});
+
 module.exports = router;
