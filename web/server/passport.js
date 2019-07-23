@@ -166,14 +166,18 @@ function auth_pass({ server }) {
   server.post('/auth',
     passport.authenticate('local'),
     (req, res, next) => {
-        const token = jwt.sign({ id: req.user.id }, jwtSecret.secret);
-        res.status(200).send({
-          auth: true,
-          token,
-          message: 'user found & logged in',
-        });
-        console.log("Successful Login");
+      const token = jwt.sign({ id: req.user.id }, jwtSecret.secret);
+      res.status(200).send({
+        auth: true,
+        token,
+        message: 'user found & logged in',
       });
+      console.log("Successful Login");
+    });
+  server.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/login');
+  });
   server.post('/otp_verify', async (req, res, next) => {
     valid = await OTP.validate({ token: req.body.token, secret: req.body.secret })
     console.log("speakeasy response - ", valid);

@@ -1,6 +1,6 @@
 import sendRequest from './sendRequest';
 
-const BASE_PATH = '/api/v1/public';
+const BASE_PATH = '/api/v1';
 
 export const getPartners = () =>
   sendRequest(`${BASE_PATH}/partners`, {
@@ -8,7 +8,7 @@ export const getPartners = () =>
   });
 
 export const getTodayBookings = () =>
-  sendRequest(`${BASE_PATH}/bookingsToday`, {
+  sendRequest(`${BASE_PATH}/service/bookings`, {
     method: 'GET',
   });
 

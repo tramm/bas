@@ -34,6 +34,7 @@ class Index extends React.Component {
           <meta name="description" content="description for indexing bots" />
         </Head>
         <p> Bookings </p>
+        <Table  {...this.props}/>
       </div>
     );
   }

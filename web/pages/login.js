@@ -66,7 +66,7 @@ class Login extends React.Component {
                 console.log("Data", data);
                 console.log("Props in user login", this.props);
                 this.props.login(data);
-                Router.push('/');
+                document.location.pathname = "/";
             } else {
                 console.log("Wrong input", this.props.errorValue);
                 this.setState({ error: "Email/Password incorrect" });
@@ -85,7 +85,7 @@ class Login extends React.Component {
         return (
             <Grid container className={classes.container}>
                 <div className={classes.logotypeContainer}>
-                    <img src="/static/crick1.png" alt="logo" className={classes.logotypeImage} />
+                    <img src="/static/Saboo-02.png" alt="logo" className={classes.logotypeImage} />
                     <Typography className={classes.logotypeText}>BOOK A SERVICE</Typography>
                 </div>
                 <div className={classes.formContainer}>
@@ -109,7 +109,7 @@ class Login extends React.Component {
                                             input: classes.textField
                                         }
                                     }}
-                                    defaultValue={this.state.mobile}
+                                    value={this.state.mobile}
                                     onChange={this.handleMobileChange}
                                     margin="normal"
                                     placeholder="Mobile Number"
@@ -124,7 +124,7 @@ class Login extends React.Component {
                                             input: classes.textField
                                         }
                                     }}
-                                    defaultValue={this.state.pin}
+                                    value={this.state.pin}
                                     onChange={this.handlePinChange}
                                     margin="normal"
                                     placeholder="Password"
@@ -181,7 +181,7 @@ const styles = theme => ({
         left: 0
     },
     logotypeContainer: {
-        backgroundColor: theme.palette.primary.main,
+        backgroundColor: '#263238',
         width: "60%",
         height: "100%",
         display: "flex",
@@ -196,13 +196,13 @@ const styles = theme => ({
         }
     },
     logotypeImage: {
-        width: 165,
+        width: 200,
         marginBottom: theme.spacing.unit * 4
     },
     logotypeText: {
-        color: "white",
+        color: "#01579b",
         fontWeight: 500,
-        fontSize: 84,
+        fontSize: 30,
         [theme.breakpoints.down("md")]: {
             fontSize: 48
         }
