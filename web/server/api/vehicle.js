@@ -10,23 +10,27 @@ const passport = require('passport');
 
 
 router.use((req, res, next) => {
-    console.log("customer api authenication ");
-    passport.authenticate('jwt', { session: false }, (err, user, info) => {
-        if (err) {
-            console.error(err);
-            res.status(401).send("Unauthorized Access");
-            return;
-        }
-        if (info !== undefined) {
-            console.log(req);
-            console.log(info.message);
-            res.status(403).send({ "error": info.message });
-            return;
-        }
-        console.log(user);
-        req.user = user;
+    console.log("service api authenication ");
+    if (req.user) {
         next();
-    })(req, res, next);
+    } else {
+        passport.authenticate('jwt', { session: false }, (err, user, info) => {
+            if (err) {
+                console.error(err);
+                res.status(401).send("Unauthorized Access");
+                return;
+            }
+            if (info !== undefined) {
+                console.log(req);
+                console.log(info.message);
+                res.status(403).send({ "error": info.message });
+                return;
+            }
+            console.log(user);
+            req.user = user;
+            next();
+        })(req, res, next);
+    }
 });
 
 router.get('/vehicleBrands', async (req, res) => {
