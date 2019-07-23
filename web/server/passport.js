@@ -159,11 +159,7 @@ function auth_pass({ server }) {
 
   server.use(passport.initialize());
   server.use(passport.session());
-  server.get('/logincallback',
-    function (req, res) {
-      res.render('/');
-    });
-  server.post('/auth',
+  server.post('/login',
     passport.authenticate('local'),
     (req, res, next) => {
       const token = jwt.sign({ id: req.user.id }, jwtSecret.secret);
