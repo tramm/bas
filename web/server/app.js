@@ -18,7 +18,7 @@ const MONGO_URL = process.env.MONGO_URL_TEST;
 
 mongoose.connect(MONGO_URL, { useNewUrlParser: true });
 
-const port = process.env.PORT || 8003;
+const port = process.env.PORT || 8000;
 const ROOT_URL = dev ? `http://localhost:${port}` : `http://localhost:${port}`;
 
 const sessionSecret = process.env.SESSION_SECRET;
