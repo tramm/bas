@@ -53,7 +53,6 @@ const userSchema = new Schema({
     },
     email: {
         type: String,
-        unique: true,
     },
     tag: {
         type: String,
@@ -61,6 +60,10 @@ const userSchema = new Schema({
     isAdmin: {
         type: Boolean,
         default: false,
+    },
+    active: {
+        type: Boolean,
+        default: true,
     },
     displayName: String,
     vehicle: [vehicleSchema],
@@ -74,7 +77,7 @@ class UserClass {
     }
     static async list() {
         const populateMUserVehicle = [{ path: "vehicle.manufacturer" }, { path: "vehicle.model" }];
-        const users = await this.find({})
+        const users = await this.find({"active": true})
             .populate(populateMUserVehicle)
             .sort({ createdAt: -1 });
         return { users };
@@ -102,8 +105,8 @@ class UserClass {
             throw new Error('User cannot be created without mobile number');
         }
     };
-    static async update(id, req) {
-        const updUser = await User.findByIdAndUpdate(id, { $set: req }, { new: true });
+    static async update(user, req) {
+        const updUser = await User.findByIdAndUpdate(user._id, { $set: req }, { new: true });
         console.log(updUser);
         return updUser;
     }
@@ -128,9 +131,9 @@ class UserClass {
     static async deleteUserVehicle(user, {vehicle_id}) {
         console.log("user is ", user);
         console.log("vehicle is ", vehicle_id);
-        user.vehicle.pull(vehicle_id);
-        const delUserVeh = await user.save();
-        return delUserVeh;
+        const inactivateUserVeh = await this.findOneAndUpdate({"_id": user._id,"vehicle._id": vehicle_id}, {"$set": {"vehicle.$.active": false}}, {new: true});
+        console.log("The updated userVehicle is ",inactivateUserVeh);
+        return inactivateUserVeh;
     }
     static async listUserVehicles(user) {
         const populateMUserVehicle = [{ path: "vehicle.manufacturer" }, { path: "vehicle.model" }];
@@ -138,7 +141,10 @@ class UserClass {
             .populate(populateMUserVehicle)
             .sort({ createdAt: -1 });
         const userVehicles = users.vehicle;
-        return { userVehicles };
+        const userActiveVehicles = userVehicles.filter(obj => {
+            return obj.active === true
+        })
+        return { userActiveVehicles };
     }
     static async signInOrSignUp({
         googleId, email, googleToken, displayName, avatarUrl,

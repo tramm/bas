@@ -12,14 +12,44 @@ const Offer = require('./Offer');
 //const Vehicle = require('./Vehicle');
 const User = require('./User');
 
+const vehicleSchema = new Schema({
+  color: {
+      type: String,
+  },
+  variant: {
+      type: String,
+  },
+  registration_Number: {
+      type: String,
+  },
+  tag: {
+      type: String,
+  },
+  year: {
+      type: Number,
+  },
+  active: {
+      type: Boolean,
+      default: true,
+  },
+  manufacturer: {
+      type: Schema.ObjectId,
+      ref: 'VehicleBrand'
+  },
+  model: {
+      type: Schema.ObjectId,
+      ref: 'VehicleModel'
+  }
+});
 
 const mongoSchema = new Schema({
   dateOfService: {
     type: String,
     required: true,
   },
-  vehicle:{
-    type: Object,
+  active: {
+    type: Boolean,
+    default: true,
   }, 
   offer: {
     type: Schema.ObjectId, 
@@ -29,16 +59,13 @@ const mongoSchema = new Schema({
     type: Schema.ObjectId, 
     ref: 'Partner'
   },
-  user: {
-    type: Schema.ObjectId, 
-    ref: 'User'
-  }
+  vehicle: [vehicleSchema]
 });
 
 class BookingClass {
   static async list({ offset = 0, limit = 10 } = {}) {
-    var populateBookingQuery = [{path:'user'}, {path:'offer'}, {path:'partner'}];
-    const bookings = await this.find({})
+    var populateBookingQuery = [{path:'vehicle.model'},{path:'vehicle.manufacturer'}, {path:'offer'}, {path:'partner'}];
+    const bookings = await this.find({"active": true})
       .populate(populateBookingQuery)
       .sort({ active: -1 })
       .skip(offset)
@@ -50,17 +77,12 @@ class BookingClass {
     console.log("the partner is "+partner_id);
     console.log("the user id is "+loginUser._id);
     console.log("the vehicle id is "+vehicle_id);
-    const user =  await User.findOne({"_id": loginUser._id,"vehicle._id": vehicle_id});
+    const user =  await User.findById(loginUser._id);
     const vehicle = user.vehicle.find(veh => veh._id == vehicle_id);
-    console.log("the vehicle is "+vehicle);
     const partner = await Partner.findById(partner_id);
     const offer = await Offer.findById(offers_id);
-    /* const category = await ServiceCategory.findById(category_id); */
-    //console.log(vehicle);
     console.log(partner);
     console.log(offer);
-    console.log(user);
-    /* console.log(category); */
     let book =  this.create({
       dateOfService,
       vehicle,
@@ -78,7 +100,8 @@ class BookingClass {
   }
 
   static async delete(id) {
-    const delBooking = await this.findByIdAndRemove(id);
+    const delBooking = await this.findOneAndUpdate({"_id": id}, {"$set": {"active": false}}, {new: true});
+    //const delBooking = await this.findByIdAndRemove(id);
     console.log(delBooking);
     return delBooking;
   }

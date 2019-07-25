@@ -32,6 +32,10 @@ const mongoSchema = new Schema({
   is_admin: {
     type: Boolean,
     default: false,
+  },
+  active: {
+    type: Boolean,
+    default: true,
   }
 });
 
@@ -42,7 +46,7 @@ class PartnerClass {
     return ['name', 'mobile', 'tag', 'email'];
 }
   static async list({ offset = 0, limit = 10 } = {}) {
-    const partners = await this.find({})
+    const partners = await this.find({"active":true})
       .select(PartnerClass.publicFields().join(' '))
       .sort({ active: -1 })
       .skip(offset)
@@ -68,7 +72,8 @@ class PartnerClass {
   }
 
   static async delete(id) {
-    const delPartner = await this.findByIdAndRemove(id);
+    const delPartner = await this.findOneAndUpdate({"_id": id}, {"$set": {"active": false}}, {new: true});
+    //const delPartner = await this.findByIdAndRemove(id);
     console.log(delPartner);
     return delPartner;
   }

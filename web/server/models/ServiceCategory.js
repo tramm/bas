@@ -22,12 +22,16 @@ const mongoSchema = new Schema({
     createdAt: {
         type: Date,
         required: true,
+    },
+    active: {
+        type: Boolean,
+        default: true,
     }
 });
 
 class ServiceCategoryClass {
     static async list({ offset = 0, limit = 10 } = {}) {
-        const categories = await this.find({})
+        const categories = await this.find({"active": true})
             .sort({ createdAt: -1 })
             .skip(offset)
             .limit(limit).lean();
@@ -49,7 +53,8 @@ class ServiceCategoryClass {
       }
     
     static async delete(id) {
-        const delCategories = await this.findByIdAndRemove(id);
+        const delCategories = await this.findOneAndUpdate({"_id": id}, {"$set": {"active": false}}, {new: true});
+        //const delCategories = await this.findByIdAndRemove(id);
         console.log(delCategories);
         return delCategories;
       }

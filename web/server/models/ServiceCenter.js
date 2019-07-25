@@ -59,7 +59,8 @@ class ServiceCenterClass {
   }
 
   static async delete(id) {
-    const delServiceCenter = await this.findByIdAndRemove(id);
+    const delServiceCenter = await this.findOneAndUpdate({"_id": id}, {"$set": {"active": false}}, {new: true});
+    //const delServiceCenter = await this.findByIdAndRemove(id);
     console.log(delServiceCenter);
     return delServiceCenter;
   }

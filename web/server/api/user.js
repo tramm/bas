@@ -48,8 +48,7 @@ router.post('/users/add', async (req, res) => {
 
 router.post('/users/update', async (req, res) => {
   try {
-    const myParams = req.body;
-    const user = await User.update(myParams.id, req.body);
+    const user = await User.update(req.user, req.body);
     res.json({ message: "Successfully Updated" });
   } catch (err) {
     logger.error(err);
