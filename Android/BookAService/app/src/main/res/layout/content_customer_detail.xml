@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:text="You dont have any User Details added!!!, Please tap below button to Add."
+            android:text="You do not have any Customer details added!!!, Please tap below button to Add."
             android:textColor="@color/grey_33"
             android:textSize="22sp" />
 

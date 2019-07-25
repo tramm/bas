@@ -15,6 +15,9 @@ public class Partner {
     @SerializedName("is_admin")
     @Expose
     private Boolean isAdmin;
+    @SerializedName("active")
+    @Expose
+    private Boolean active;
     @SerializedName("_id")
     @Expose
     private String id;
@@ -56,6 +59,14 @@ public class Partner {
 
     public void setIsAdmin(Boolean isAdmin) {
         this.isAdmin = isAdmin;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public String getId() {

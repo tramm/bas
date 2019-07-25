@@ -16,7 +16,7 @@
         <item
             android:id="@+id/vehicle"
             android:icon="@drawable/cars"
-            android:title="My Vehicle" />
+            android:title="My Vehicles" />
         <item
             android:id="@+id/bookings"
             android:icon="@drawable/order"

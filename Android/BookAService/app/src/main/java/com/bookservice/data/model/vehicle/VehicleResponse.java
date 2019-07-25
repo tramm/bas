@@ -1,13 +1,15 @@
 
 package com.bookservice.data.model.vehicle;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class VehicleResponse {
+import java.io.Serializable;
+import java.util.List;
 
-    @SerializedName("userVehicles")
+public class VehicleResponse implements Serializable {
+
+    @SerializedName("userActiveVehicles")
     @Expose
     private List<UserVehicle> userVehicles = null;
 

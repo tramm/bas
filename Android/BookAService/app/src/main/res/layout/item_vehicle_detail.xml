@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/snow"
@@ -38,13 +39,14 @@
 
                 <com.bookservice.utils.view.BsTextView
                     android:id="@+id/brand"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0.7"
                     android:gravity="center|start"
                     android:paddingStart="10dp"
                     android:paddingTop="5dp"
-                    android:paddingEnd="10dp"
+                    android:paddingEnd="5dp"
+                    android:text="Nikhil Virupakshi"
                     android:paddingBottom="5dp"
                     android:textColor="@color/grey_33"
                     android:textSize="18sp" />

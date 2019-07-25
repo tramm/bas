@@ -55,7 +55,7 @@ public class AsyncTaskConnection extends AsyncTask<String, Void, Result> {
             } else {
                 return WsConnection.doGetConnection(mUrl);
             }
-        }else {
+        } else {
             Result result = new Result();
             result.setResponse(NO_INTERNET_CONNECTION);
             result.setStatusCode(NO_INTERNET);

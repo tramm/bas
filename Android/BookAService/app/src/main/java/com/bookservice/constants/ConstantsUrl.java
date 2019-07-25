@@ -2,7 +2,9 @@ package com.bookservice.constants;
 
 public class ConstantsUrl {
 
-    private static String BASE_URL = "http://dev.bas.turnright.tech/";
+    //private static String BASE_URL = "http://dev.bas.turnright.tech/";
+
+    private static String BASE_URL = "http://bas.turnright.tech/";
 
     private static String BASE_URL_USER_API = BASE_URL + "api/v1/user/";
 
@@ -22,7 +24,7 @@ public class ConstantsUrl {
     public static String CONFIRM_PIN = BASE_URL + "register";
 
 
-    //User Api
+    ////User Api
     public static String USERS = BASE_URL_USER_API + "partners";
 
     public static String ADD_USERS = BASE_URL_USER_API + "partners/add";

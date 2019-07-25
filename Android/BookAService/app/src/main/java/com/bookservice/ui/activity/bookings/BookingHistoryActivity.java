@@ -50,9 +50,9 @@ public class BookingHistoryActivity extends BsBaseActivity implements IBookingHi
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        if (bookings == null || bookings.isEmpty() ) {
-
-        }else{
+        if (bookings == null || bookings.isEmpty()) {
+            BsToast.showLong(activity, "No bookings");
+        } else {
             BookingHistoryAdapter bookingHistoryAdapter = new BookingHistoryAdapter(bookings, this);
             recyclerView.setAdapter(bookingHistoryAdapter);
         }

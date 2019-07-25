@@ -61,7 +61,7 @@ public class UserDetailActivity extends BsBaseActivity implements IUserView {
         }
 
         userPresenter = new UserPresenter(this);
-        showTile("Customer Detail");
+        showTile("Contact Detail");
         showWhiteStatusBar(Color.WHITE);
         showBackButton();
         userPresenter.getUsersList(activity);
@@ -132,13 +132,13 @@ public class UserDetailActivity extends BsBaseActivity implements IUserView {
         final ImageView delete = view.findViewById(R.id.delete);
 
         if (isAdd) {
-            title.setText("Add Customer");
+            title.setText("Add Contact");
             delete.setVisibility(View.GONE);
         } else {
             name.setText(user.getName());
             email.setText(user.getEmail());
             mobile.setText(user.getMobile());
-            title.setText("Edit Customer");
+            title.setText("Edit Contact");
             if (user.getTag().equalsIgnoreCase("Self")) {
                 rbSelf.setChecked(true);
                 rbOthers.setChecked(false);

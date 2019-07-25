@@ -25,6 +25,7 @@ public class Constants {
     public static String EXTRA_OFFER_ID = "offer_id";
 
     public static String KEY_TOKEN = "token";
+    public static String KEY_USER_MOBILE = "user_mobile";
 
     public static int NO_INTERNET = 13;
 

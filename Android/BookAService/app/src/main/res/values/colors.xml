@@ -51,4 +51,10 @@
 
     <color name="yellow">#FFCE67</color>
     <color name="red">#FF5C75</color>
+
+    <!--colors for light mode-->
+    <color name="contentBodyColor">#FFFFFF</color>
+    <color name="contentTextColor">#020000</color>
+    <color name="bottomNavigationBackground">#F7F7F7</color>
+
 </resources>

@@ -37,6 +37,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/snow"
+                app:floatingSearch_backgroundColor="@color/snow"
+                app:floatingSearch_actionMenuOverflowColor="@color/snow"
                 app:floatingSearch_clearBtnColor="@color/colorPrimary"
                 app:floatingSearch_close_search_on_keyboard_dismiss="true"
                 app:floatingSearch_leftActionMode="showHamburger"

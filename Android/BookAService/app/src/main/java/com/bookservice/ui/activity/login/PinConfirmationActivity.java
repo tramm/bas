@@ -21,6 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.bookservice.constants.Constants.KEY_TOKEN;
+import static com.bookservice.constants.Constants.KEY_USER_MOBILE;
 import static com.bookservice.constants.Constants.MOBILE;
 
 public class PinConfirmationActivity extends BsBaseActivity implements IPinConfirmView {
@@ -63,6 +64,7 @@ public class PinConfirmationActivity extends BsBaseActivity implements IPinConfi
     @Override
     public void onSuccess(LoginResponse result) {
         if (result.getAuth()) {
+            BsPreference.setString(KEY_USER_MOBILE, mobile);
             BsPreference.setString(KEY_TOKEN, result.getToken());
             BsToast.showLong(activity, "Registered Successfully");
             Intent intent = new Intent(PinConfirmationActivity.this, HomeActivity.class);

@@ -132,6 +132,7 @@ public class OfferDetailActivity extends BsBaseActivity implements IOffersDetail
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
                 selectDate.setText(sdf.format(myCalendar.getTime()));
             }
+
         };
 
         final DatePickerDialog datePickerDialog = new DatePickerDialog(OfferDetailActivity.this, date, myCalendar
@@ -181,6 +182,20 @@ public class OfferDetailActivity extends BsBaseActivity implements IOffersDetail
         dialog.setCanceledOnTouchOutside(true);
         dialog.setCancelable(false);
         final LinearLayout continueHomePage = (LinearLayout) alertContentView.findViewById(R.id.continue_home_page);
+
+       /* final KonfettiView konfettiView = findViewById(R.id.viewKonfetti);
+
+        konfettiView.build()
+                .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+                .setDirection(0.0, 359.0)
+                .setSpeed(1f, 5f)
+                .setFadeOutEnabled(true)
+                .setTimeToLive(2000L)
+                .addShapes(Shape.RECT, Shape.CIRCLE)
+                .addSizes(new Size(12, 5))
+                .setPosition(-50f, konfettiView.getWidth() + 50f, -50f, -50f)
+                .streamFor(300, 5000L);
+*/
         continueHomePage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -214,12 +229,15 @@ public class OfferDetailActivity extends BsBaseActivity implements IOffersDetail
             txtModel.setText("");
             txtVehicleDetail.setText("");
             vehicleType.setText("");
+            vehicleType.setVisibility(View.GONE);
         } else {
             strVehicleId = userVehicles.get(0).getId();
             txtbrand.setText(userVehicles.get(0).getManufacturer().getName());
             txtModel.setText(userVehicles.get(0).getModel().getName());
             txtVehicleDetail.setText(userVehicles.get(0).getRegistrationNumber() + ", " + userVehicles.get(0).getYear());
+            vehicleType.setVisibility(View.VISIBLE);
             vehicleType.setText(userVehicles.get(0).getTag());
+
         }
     }
 
@@ -232,11 +250,13 @@ public class OfferDetailActivity extends BsBaseActivity implements IOffersDetail
             email.setText("");
             mobile.setText("");
             customerType.setText("");
+            customerType.setVisibility(View.GONE);
         } else {
             strUserId = users.get(0).getId();
             name.setText(users.get(0).getName());
             email.setText(users.get(0).getEmail());
             mobile.setText(users.get(0).getMobile());
+            customerType.setVisibility(View.VISIBLE);
             customerType.setText(users.get(0).getTag());
         }
     }

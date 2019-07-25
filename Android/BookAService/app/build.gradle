@@ -10,8 +10,8 @@ android {
         applicationId "com.bookservice"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -42,4 +42,6 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.google.code.gson:gson:2.7'
     implementation files('libs/mint-android-sdk-5.2.5.jar')
+    implementation 'nl.dionsegijn:konfetti:1.1.3'
 }
+

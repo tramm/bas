@@ -23,6 +23,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.bookservice.constants.Constants.KEY_TOKEN;
+import static com.bookservice.constants.Constants.KEY_USER_MOBILE;
 import static com.bookservice.constants.Constants.MOBILE;
 import static com.bookservice.constants.Constants.SECRET;
 
@@ -81,6 +82,8 @@ public class SignInActivity extends BsBaseActivity implements ISignInView {
     @Override
     public void onSuccessLogin(LoginResponse result) {
         if (result.getAuth()) {
+            String strMobileNo = etMobileNo.getText().toString();
+            BsPreference.setString(KEY_USER_MOBILE, strMobileNo);
             BsPreference.setString(KEY_TOKEN, result.getToken());
             BsToast.showLong(activity, "Logged in Successfully");
             Intent intent = new Intent(SignInActivity.this, HomeActivity.class);

@@ -115,6 +115,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="5dp"
+                    android:visibility="gone"
                     android:text="Forgot Password? Click here"
                     android:textColor="@color/snow" />
             </LinearLayout>

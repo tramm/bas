@@ -50,9 +50,9 @@ public class BookingHistoryAdapter extends RecyclerView.Adapter<BookingHistoryAd
             itemViewHolder.mMobile.setVisibility(View.GONE);
         }
 
-        final Vehicle vehicle = arrayList.get(i).getVehicle();
+        final Vehicle vehicle = arrayList.get(i).getVehicle().get(0);
         if (vehicle != null) {
-            final String brand = vehicle.getManufacturer() + ", " + vehicle.getModel();
+            final String brand = vehicle.getManufacturer().getName() + ", " + vehicle.getModel().getName();
             itemViewHolder.mBrand.setText(brand);
         } else {
             itemViewHolder.mBrand.setVisibility(View.GONE);

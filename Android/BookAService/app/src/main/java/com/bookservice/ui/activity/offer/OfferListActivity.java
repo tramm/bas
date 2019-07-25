@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.bookservice.R;
 import com.bookservice.adapter.OfferListAdapter;
@@ -30,6 +32,8 @@ public class OfferListActivity extends BsBaseActivity implements IOffersListView
     String strCategoryId;
     OfferListPresenter offerListPresenter;
     Activity activity;
+    @BindView(R.id.ll_no_list)
+    LinearLayout llNoList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +61,14 @@ public class OfferListActivity extends BsBaseActivity implements IOffersListView
 
         final String url = offerListReponse.getUrl();
         final List<OfferList> offerList = offerListReponse.getOfferList();
+
+        if (offerList.isEmpty() || offerList == null) {
+            llNoList.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        } else {
+            llNoList.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
 
         GridLayoutManager  gridLayoutManager = new GridLayoutManager(this, 2);
         recyclerView.setHasFixedSize(true);

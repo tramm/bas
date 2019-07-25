@@ -145,7 +145,7 @@
                             android:layout_weight="0.8"
                             android:gravity="center|start"
                             android:padding="10dp"
-                            android:text="Customer"
+                            android:text="Contact"
                             android:textColor="@color/grey_33"
                             android:textSize="18sp"
                             android:textStyle="bold" />

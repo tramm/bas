@@ -12,21 +12,27 @@ public class Vehicle {
     @SerializedName("_id")
     @Expose
     private String id;
-    @SerializedName("manufacturer")
-    @Expose
-    private String manufacturer;
-    @SerializedName("model")
-    @Expose
-    private String model;
     @SerializedName("color")
     @Expose
     private String color;
     @SerializedName("variant")
     @Expose
     private String variant;
-    @SerializedName("__v")
+    @SerializedName("registration_Number")
     @Expose
-    private Integer v;
+    private String registrationNumber;
+    @SerializedName("tag")
+    @Expose
+    private String tag;
+    @SerializedName("year")
+    @Expose
+    private Integer year;
+    @SerializedName("manufacturer")
+    @Expose
+    private Manufacturer manufacturer;
+    @SerializedName("model")
+    @Expose
+    private Model model;
 
     public Boolean getActive() {
         return active;
@@ -42,22 +48,6 @@ public class Vehicle {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getManufacturer() {
-        return manufacturer;
-    }
-
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
-    }
-
-    public String getModel() {
-        return model;
-    }
-
-    public void setModel(String model) {
-        this.model = model;
     }
 
     public String getColor() {
@@ -76,12 +66,44 @@ public class Vehicle {
         this.variant = variant;
     }
 
-    public Integer getV() {
-        return v;
+    public String getRegistrationNumber() {
+        return registrationNumber;
     }
 
-    public void setV(Integer v) {
-        this.v = v;
+    public void setRegistrationNumber(String registrationNumber) {
+        this.registrationNumber = registrationNumber;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+
+    public Manufacturer getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(Manufacturer manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public Model getModel() {
+        return model;
+    }
+
+    public void setModel(Model model) {
+        this.model = model;
     }
 
 }

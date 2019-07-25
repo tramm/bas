@@ -1,28 +1,12 @@
 package com.bookservice.utils;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.telephony.TelephonyManager;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
 
 public class Utils {
     public static final String DATE_FORMATTER_FOR_SYNC_DATA = "yyyy-MM-dd";
     public static final String DATE_FORMATTER_WITH_TIME = "yyyy-MM-dd HH:mm";
 
-    public static String getPhoneNumber(Context context) {
-        TelephonyManager tMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        @SuppressLint("MissingPermission") String mPhoneNumber = tMgr.getLine1Number();
-        return mPhoneNumber;
-    }
 
     public static void share(Activity activity, String name, String description, String serviceCenter) {
         String shareBody = "Checkout Offers from Book a Service App" + " , " + name + " , " + description + " from " + serviceCenter;
@@ -33,7 +17,7 @@ public class Utils {
         activity.startActivity(Intent.createChooser(sharingIntent, "Share Offers from Book a Service App"));
     }
 
-    public static void hideIME(final Activity activity) {
+    /*public static void hideIME(final Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         View view = activity.getCurrentFocus();
         if (view == null) {
@@ -74,5 +58,5 @@ public class Utils {
         String dateAsString = outputFmt.format(time);
 
         return dateAsString;
-    }
+    }*/
 }

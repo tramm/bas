@@ -14,6 +14,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.arlib.floatingsearchview.FloatingSearchView;
 import com.bookservice.R;
@@ -23,6 +25,7 @@ import com.bookservice.data.model.category.Category;
 import com.bookservice.data.model.category.CategoryResponse;
 import com.bookservice.data.model.offers.GetOffersResponse;
 import com.bookservice.data.model.offers.Offer;
+import com.bookservice.preference.BsPreference;
 import com.bookservice.ui.activity.bookings.BookingHistoryActivity;
 import com.bookservice.ui.activity.user.UserDetailActivity;
 import com.bookservice.ui.activity.vehicle.VehicleDetailActivity;
@@ -33,6 +36,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.bookservice.constants.Constants.KEY_USER_MOBILE;
 
 public class HomeActivity extends BsBaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, IHomeView {
@@ -77,6 +82,13 @@ public class HomeActivity extends BsBaseActivity
             MenuItem mi = m.getItem(i);
             applyFontToMenuItem(mi);
         }
+
+        View headerView = navigationView.getHeaderView(0);
+        TextView tvName = (TextView) headerView.findViewById(R.id.txt_username);
+
+        tvName.setText(BsPreference.getString(KEY_USER_MOBILE));
+
+
 
         presenter.getOffers(activity);
         presenter.getCategories(activity);

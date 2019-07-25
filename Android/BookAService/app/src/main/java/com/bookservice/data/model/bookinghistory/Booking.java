@@ -4,8 +4,13 @@ package com.bookservice.data.model.bookinghistory;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Booking {
 
+    @SerializedName("active")
+    @Expose
+    private Boolean active;
     @SerializedName("_id")
     @Expose
     private String id;
@@ -14,19 +19,24 @@ public class Booking {
     private String dateOfService;
     @SerializedName("vehicle")
     @Expose
-    private Vehicle vehicle;
+    private List<Vehicle> vehicle = null;
     @SerializedName("partner")
     @Expose
     private Partner partner;
     @SerializedName("offer")
     @Expose
     private Offer offer;
-    @SerializedName("status")
-    @Expose
-    private Boolean status;
     @SerializedName("__v")
     @Expose
     private Integer v;
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 
     public String getId() {
         return id;
@@ -44,11 +54,11 @@ public class Booking {
         this.dateOfService = dateOfService;
     }
 
-    public Vehicle getVehicle() {
+    public List<Vehicle> getVehicle() {
         return vehicle;
     }
 
-    public void setVehicle(Vehicle vehicle) {
+    public void setVehicle(List<Vehicle> vehicle) {
         this.vehicle = vehicle;
     }
 
@@ -66,14 +76,6 @@ public class Booking {
 
     public void setOffer(Offer offer) {
         this.offer = offer;
-    }
-
-    public Boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(Boolean status) {
-        this.status = status;
     }
 
     public Integer getV() {

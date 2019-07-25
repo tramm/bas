@@ -7,6 +7,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Offer {
 
+    @SerializedName("active")
+    @Expose
+    private Boolean active;
     @SerializedName("category")
     @Expose
     private List<String> category = null;
@@ -37,6 +40,14 @@ public class Offer {
     @SerializedName("__v")
     @Expose
     private Integer v;
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 
     public List<String> getCategory() {
         return category;
